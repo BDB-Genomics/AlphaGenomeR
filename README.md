@@ -39,16 +39,16 @@ AlphaGenomeR provides a production-grade R interface to the AlphaGenome API. It 
 
 ## Core Functions and Biological Modalities
 
-AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figure below demonstrates a **Multimodal Genomic Atlas** generated for the *MYC* locus, mirroring the high-impact visualizations found in the official AlphaGenome paper.
+AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figure below demonstrates a **Multimodal Genomic Atlas** generated for the *MYC* locus, mirroring the high-impact visualizations found in Figure 2 of the official AlphaGenome paper.
 
 <p align="center">
-  <img src="man/figures/modality_atlas.png" width="900">
+  <img src="man/figures/modality_atlas.png" width="1000">
 </p>
 
 ---
 
 ### High-Resolution Modality Gallery
-The following individual plots demonstrate the high-resolution predictions retrieved for each specific track.
+The following individual plots demonstrate the high-resolution predictions retrieved for each specific biological track at the *MYC* locus.
 
 ### 1. RNA-seq: Gene Expression Profiling
 The `alphagenome_get_rna_seq()` function extracts predicted expression levels for polyA+ and total RNA tracks.
