@@ -1,5 +1,7 @@
 # AlphaGenomeR
 
+<p align="center"><img src="man/figures/logo.png" width="400"></p>
+
 **High-Resolution R Interface for Functional Genomic Predictions**
 
 [![Bioconductor Submission](https://img.shields.io/badge/Bioconductor-Submission-blue.svg)](https://github.com/Bioconductor/Contributions/issues/4256)
