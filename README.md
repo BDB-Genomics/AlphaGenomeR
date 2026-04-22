@@ -1,9 +1,15 @@
 # AlphaGenomeR: R Interface to Google DeepMind's AlphaGenome API
 
+<p align="center">
+  <img src="man/figures/banner.png" width="100%">
+</p>
+
 [![Bioconductor Status](https://bioconductor.org/shields/availability/release/AlphaGenomeR.svg)](https://bioconductor.org/packages/AlphaGenomeR)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![R-CMD-check](https://github.com/BDB-Genomics/AlphaGenomeR/actions/workflows/check.yml/badge.svg)](https://github.com/BDB-Genomics/AlphaGenomeR/actions)
 
-**AlphaGenomeR** provides a robust R wrapper for the [AlphaGenome API](https://deepmind.google/science/alphagenome/) developed by Google DeepMind. AlphaGenome is a transformer-based model capable of predicting a wide array of functional genomic features from DNA sequences at single-base resolution.
+**AlphaGenomeR** provides a high-performance R wrapper for the [AlphaGenome API](https://deepmind.google/science/alphagenome/) developed by Google DeepMind.
+ AlphaGenome is a transformer-based model capable of predicting a wide array of functional genomic features from DNA sequences at single-base resolution.
 
 This package bridges the official **AlphaGenome Python SDK** using the `reticulate` package, enabling R users to access high-throughput gRPC-based predictions for gene expression, chromatin accessibility, splicing, and 3D genome architecture.
 
