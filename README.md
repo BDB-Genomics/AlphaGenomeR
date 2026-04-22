@@ -39,10 +39,27 @@ AlphaGenomeR provides a production-grade R interface to the AlphaGenome API. It 
 
 ## Core Functions and Biological Modalities
 
-AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figure below demonstrates a **Multimodal Genomic Atlas** generated for the *MYC* locus, mirroring the high-impact visualizations found in Figure 2 of the official AlphaGenome paper.
+AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figures below mirror the high-impact visualizations found in the official AlphaGenome paper.
+
+### Figure 2a | Multimodal Genomic Atlas
+Consolidated predictions for the *MYC* locus, showing high-fidelity tracks for expression, accessibility, and initiation.
 
 <p align="center">
   <img src="man/figures/modality_atlas.png" width="1000">
+</p>
+
+### Figure 2b | Cell-Type Specificity
+AlphaGenomeR captures tissue-specific regulatory logic. Below is a comparison of predicted chromatin accessibility at the same locus across different tissues.
+
+<p align="center">
+  <img src="man/figures/tissue_comparison.png" width="1000">
+</p>
+
+### Figure 3b | Variant Effect Prediction
+Demonstration of how AlphaGenomeR can be used to interpret non-coding variants. Below, a single nucleotide mutation (G > A) is predicted to abolish a splice donor site, leading to exon skipping.
+
+<p align="center">
+  <img src="man/figures/variant_effect.png" width="900">
 </p>
 
 ---
