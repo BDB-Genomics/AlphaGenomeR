@@ -12,14 +12,14 @@
 #' }
 alphagenome_get_splice_usage <- function(response_body) {
 
-  # EXTRACT THE SPLICE_USAGE DATA
-  track_data <- response_body$splice_usage
+  # EXTRACT THE SPLICE_SITE_USAGE DATA
+  track_data <- response_body$splice_site_usage
 
   if (is.null(track_data)) return(NULL)
 
-  list(
+  return(list(
     values   = reticulate::py_to_r(track_data$values),
     metadata = reticulate::py_to_r(track_data$metadata)
-  )
+  ))
 
 }
