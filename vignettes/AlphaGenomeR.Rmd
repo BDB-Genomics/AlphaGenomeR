@@ -1,0 +1,104 @@
+---
+title: "Introduction to AlphaGenomeR"
+author: "Himanshu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to AlphaGenomeR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE # Set to FALSE for Bioconductor builds (no internet access)
+)
+```
+
+## Introduction
+
+`AlphaGenomeR` is an R interface to Google DeepMind's AlphaGenome API. AlphaGenome is a multimodal transformer model that predicts functional genomic features (such as gene expression, chromatin accessibility, and splicing) from DNA sequences at single-base resolution.
+
+This package bridges the official Python SDK using `reticulate` to enable high-throughput gRPC-based predictions directly within R.
+
+## Prerequisites
+
+Before using `AlphaGenomeR`, you must have:
+
+1. **Python (>= 3.10)** installed.
+2. The **AlphaGenome Python package**:
+   ```bash
+   pip install alphagenome
+   ```
+3. An **API Key** from the [AlphaGenome Science Page](https://deepmind.google/science/alphagenome/).
+
+## Basic Usage
+
+### Loading the Package
+
+```{r}
+library(AlphaGenomeR)
+```
+
+### Querying Predictions
+
+To query predictions, provide your API key and a 1MB genomic region (hg38). Note that `ontology_terms` (UBERON or CL terms) are required for tissue-specific predictions.
+
+```{r}
+api_key <- "YOUR_API_KEY"
+region <- "chr17:42560601-43609177"
+
+# Query for Lung tissue
+results <- alphagenome_query(
+  access_token = api_key,
+  genomic_region = region,
+  ontology_terms = c("UBERON:0002048"),
+  requested_outputs = c("RNA_SEQ", "ATAC")
+)
+```
+
+## Extracting Data
+
+`AlphaGenomeR` provides specialized extractor functions to convert the raw API response into R-native matrices and data frames.
+
+### RNA-seq Data
+
+```{r}
+rna_data <- alphagenome_get_rna_seq(results)
+
+# The extractor returns a list with 'values' and 'metadata'
+dim(rna_data$values) # Matrix of predictions (Positions x Tracks)
+head(rna_data$metadata) # Metadata for each track
+```
+
+### ATAC-seq Data
+
+```{r}
+atac_data <- alphagenome_get_atac(results)
+# Access signal values
+plot(atac_data$values[,1], type = "l", main = "Predicted ATAC-seq Signal")
+```
+
+## Supported Modalities
+
+The following extractor functions are available:
+
+* `alphagenome_get_rna_seq()`
+* `alphagenome_get_atac()`
+* `alphagenome_get_cage()`
+* `alphagenome_get_dnase()`
+* `alphagenome_get_chip_tf()`
+* `alphagenome_get_chip_histone()`
+* `alphagenome_get_splice_sites()`
+* `alphagenome_get_splice_junctions()`
+* `alphagenome_get_splice_usage()`
+* `alphagenome_get_procap()`
+* `alphagenome_get_contact_maps()`
+
+## Session Info
+
+```{r, eval=TRUE}
+sessionInfo()
+```
