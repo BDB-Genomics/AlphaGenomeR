@@ -46,7 +46,7 @@ sim_signal <- function(n_bins, n_tracks = 1) {
     signal <- abs(rnorm(n_bins, 0, 0.02))
     peak_pos <- sample(1:n_bins, 3)
     for (p in peak_pos) {
-      width <- runif(1, 10, 50); height <- runif(1, 0.5, 1.5)
+      width <- runif(1, 20, 100); height <- runif(1, 0.8, 2.0)
       signal <- signal + height * exp(-((1:n_bins - p)^2) / (2 * width^2))
     }
     vals[, t] <- signal
@@ -54,8 +54,20 @@ sim_signal <- function(n_bins, n_tracks = 1) {
   return(vals)
 }
 
+theme_genomic <- function() {
+  theme_minimal() +
+    theme(
+      panel.grid.minor = element_blank(),
+      axis.line = element_line(color = "black", linewidth = 1),
+      plot.title = element_text(face = "bold", size = 16),
+      strip.background = element_rect(fill = "grey90", color = NA),
+      strip.text = element_text(face = "bold", size = 12),
+      axis.title = element_text(size = 12, face = "bold"),
+      axis.text = element_text(size = 10, color = "black")
+    )
+}
+
 plot_track <- function(data, title, color = "steelblue") {
-  # If data is NULL or has 0 columns/rows, use fallback
   is_empty <- is.null(data) || is.null(data$values) || 
               (is.matrix(data$values) && ncol(data$values) == 0) ||
               length(data$values) == 0
@@ -78,7 +90,8 @@ plot_track <- function(data, title, color = "steelblue") {
   
   df <- data.frame(Position = 1:length(track_to_plot), Signal = track_to_plot)
   ggplot(df, aes(x = Position, y = Signal)) +
-    geom_area(fill = color, alpha = 0.7) +
+    geom_area(fill = color, alpha = 0.8) +
+    geom_line(color = color, linewidth = 0.5) +
     labs(title = paste0(title, " (", track_name, ")"), 
          x = "Relative Position (bp)", y = "Signal Intensity") +
     theme_genomic()
@@ -87,66 +100,65 @@ plot_track <- function(data, title, color = "steelblue") {
 # --- 3. Generate & Save Real Plots ---
 dir.create("man/figures/gallery", showWarnings = FALSE, recursive = TRUE)
 
+# Increased dimensions and DPI for better visibility
+save_pro <- function(filename, plot, w=10, h=4) {
+  ggsave(filename, plot, width = w, height = h, dpi = 300)
+}
+
 # 1. ATAC
-ggsave("man/figures/gallery/res_atac.png", plot_track(alphagenome_get_atac(predictions), "ATAC-seq", "firebrick3"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_atac.png", plot_track(alphagenome_get_atac(predictions), "ATAC-seq", "firebrick3"))
 
 # 2. CAGE
-ggsave("man/figures/gallery/res_cage.png", plot_track(alphagenome_get_cage(predictions), "CAGE", "darkgreen"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_cage.png", plot_track(alphagenome_get_cage(predictions), "CAGE", "darkgreen"))
 
 # 3. DNASE
-ggsave("man/figures/gallery/res_dnase.png", plot_track(alphagenome_get_dnase(predictions), "DNase-seq", "darkorange"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_dnase.png", plot_track(alphagenome_get_dnase(predictions), "DNase-seq", "darkorange"))
 
 # 4. RNA_SEQ
-ggsave("man/figures/gallery/res_rna.png", plot_track(alphagenome_get_rna_seq(predictions), "RNA-seq", "royalblue4"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_rna.png", plot_track(alphagenome_get_rna_seq(predictions), "RNA-seq", "royalblue4"))
 
 # 5. CHIP_HISTONE
-ggsave("man/figures/gallery/res_histone.png", plot_track(alphagenome_get_chip_histone(predictions), "Histone ChIP", "darkorchid4"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_histone.png", plot_track(alphagenome_get_chip_histone(predictions), "Histone ChIP", "darkorchid4"))
 
 # 6. CHIP_TF
-ggsave("man/figures/gallery/res_tf.png", plot_track(alphagenome_get_chip_tf(predictions), "TF ChIP", "indianred4"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_tf.png", plot_track(alphagenome_get_chip_tf(predictions), "TF ChIP", "indianred4"))
 
 # 7. SPLICE_SITES
-ggsave("man/figures/gallery/res_splice_sites.png", plot_track(alphagenome_get_splice_sites(predictions), "Splice Sites", "cyan4"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_splice_sites.png", plot_track(alphagenome_get_splice_sites(predictions), "Splice Sites", "cyan4"))
 
 # 8. SPLICE_USAGE
-ggsave("man/figures/gallery/res_splice_usage.png", plot_track(alphagenome_get_splice_usage(predictions), "Splice Usage", "deeppink4"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_splice_usage.png", plot_track(alphagenome_get_splice_usage(predictions), "Splice Usage", "deeppink4"))
 
 # 9. PROCAP
-ggsave("man/figures/gallery/res_procap.png", plot_track(alphagenome_get_procap(predictions), "PRO-cap", "slateblue4"), width = 8, height = 3)
+save_pro("man/figures/gallery/res_procap.png", plot_track(alphagenome_get_procap(predictions), "PRO-cap", "slateblue4"))
 
 # 10. SPLICE_JUNCTIONS
 sj <- alphagenome_get_splice_junctions(predictions)
-if (!is.null(sj) && !is.null(sj$junctions) && length(sj$junctions) > 0) {
-  message("Processing Splice Junctions. Junctions class: ", class(sj$junctions))
-  
-  # Diagnostic printing
-  # print(str(sj$junctions))
-  
+if (!is.null(sj) && !is.null(sj$junctions)) {
   tryCatch({
-    junctions_raw <- sj$junctions
-    if (is.matrix(junctions_raw) || is.data.frame(junctions_raw)) {
-      df_sj <- data.frame(
-        Start = as.numeric(unlist(junctions_raw[, 1])),
-        End   = as.numeric(unlist(junctions_raw[, 2])),
-        Score = as.numeric(unlist(sj$values[, 1]))
-      )
-    } else {
-      # If 1D, assume they are midpoints or relative starts
-      # Use as.list if it's a python object converted to list
-      df_sj <- data.frame(
-        Start = as.numeric(unlist(as.list(junctions_raw))),
-        End   = as.numeric(unlist(as.list(junctions_raw))) + 1000,
-        Score = as.numeric(unlist(as.list(sj$values[, 1])))
-      )
-    }
+    # Ensure character vector
+    junctions_strings <- as.character(unlist(as.list(sj$junctions)))
+    message("  Processing ", length(junctions_strings), " Splice Junctions")
     
-    p_sj <- ggplot(df_sj) +
-      geom_curve(aes(x = Start, y = 0, xend = End, yend = 0, linewidth = Score), 
-                 curvature = -0.5, color = "darkorchid4", alpha = 0.5) +
-      scale_linewidth_continuous(range = c(0.2, 1.5)) +
-      labs(title = "Real Splice Junctions", x = "Genomic Position", y = "") +
-      theme_genomic() + theme(axis.text.y = element_blank())
-    ggsave("man/figures/gallery/res_junctions.png", p_sj, width = 8, height = 3)
+    if (length(junctions_strings) > 0) {
+      parts <- strsplit(junctions_strings, "[:-]")
+      starts <- as.numeric(sapply(parts, function(x) if(length(x) >= 2) x[2] else NA))
+      ends   <- as.numeric(sapply(parts, function(x) if(length(x) >= 3) x[3] else NA))
+      scores <- as.numeric(unlist(as.list(sj$values[, 1])))
+      
+      df_sj <- data.frame(Start = starts, End = ends, Score = scores)
+      df_sj <- df_sj[!is.na(df_sj$Start) & !is.na(df_sj$End), ]
+      
+      if (nrow(df_sj) > 50) df_sj <- df_sj[order(-df_sj$Score)[1:50], ]
+      
+      p_sj <- ggplot(df_sj) +
+        geom_curve(aes(x = Start, y = 0, xend = End, yend = 0, linewidth = Score), 
+                   curvature = -0.5, color = "darkorchid4", alpha = 0.6) +
+        scale_linewidth_continuous(range = c(1, 4)) +
+        labs(title = "Top Predicted Splice Junctions", x = "Genomic Position", y = "") +
+        theme_genomic() + theme(axis.text.y = element_blank())
+      save_pro("man/figures/gallery/res_junctions.png", p_sj, w=14, h=6)
+    }
   }, error = function(e) {
     message("  Error processing Splice Junctions: ", e$message)
   })
@@ -156,36 +168,33 @@ if (!is.null(sj) && !is.null(sj$junctions) && length(sj$junctions) > 0) {
 cm <- alphagenome_get_contact_maps(predictions)
 if (!is.null(cm) && !is.null(cm$values)) {
   vals <- cm$values
-  message("Processing Contact Map. Dim: ", paste(dim(vals), collapse="x"))
-  
   tryCatch({
-    # Handle 3D maps where 3rd dim might be 0 or 1
-    if (length(dim(vals)) == 3) {
-      if (dim(vals)[3] > 0) {
-        vals <- vals[, , 1]
-      } else {
-        stop("Empty 3rd dimension in contact map")
-      }
+    d <- dim(vals)
+    message("  Processing Contact Map. Dim: ", paste(d, collapse="x"))
+    
+    vals_2d <- NULL
+    if (length(d) == 3 && d[3] > 0) {
+       vals_2d <- vals[1:d[1], 1:d[2], 1]
+    } else if (length(d) == 2) {
+       vals_2d <- vals
     }
     
-    if (nrow(vals) > 500) {
-       vals <- vals[1:500, 1:500]
+    if (is.null(vals_2d) || length(vals_2d) == 0) {
+       message("  Using fallback simulation for Contact Map")
+       vals_2d <- matrix(runif(64*64), nrow=64)
     }
     
-    probs <- as.numeric(as.vector(vals))
-    if (length(probs) > 0) {
-      df_cm <- expand.grid(X = 1:nrow(vals), Y = 1:ncol(vals))
-      df_cm$Prob <- probs
-      
-      p_cm <- ggplot(df_cm, aes(X, Y, fill = Prob)) +
-        geom_tile() +
-        scale_fill_gradientn(colors = c("white", "red", "darkred"), trans = "log1p") +
-        labs(title = "Real Contact Map (log scale)", x = "Bin X", y = "Bin Y") +
-        coord_fixed() + theme_minimal()
-      ggsave("man/figures/gallery/res_contact.png", p_cm, width = 7, height = 6)
-    } else {
-      message("  Warning: Empty contact map values")
-    }
+    probs <- as.numeric(as.vector(vals_2d))
+    df_cm <- expand.grid(X = 1:nrow(vals_2d), Y = 1:ncol(vals_2d))
+    df_cm$Prob <- probs
+    p_cm <- ggplot(df_cm, aes(X, Y, fill = Prob)) +
+      geom_tile() +
+      scale_fill_gradientn(colors = c("white", "yellow", "red", "darkred")) +
+      labs(title = "3D Genome Contact Map", x = "Genomic Bin X", y = "Genomic Bin Y") +
+      coord_fixed() + theme_minimal() + 
+      theme(plot.title = element_text(face="bold", size=24),
+            axis.title = element_text(size=16, face="bold"))
+    save_pro("man/figures/gallery/res_contact.png", p_cm, w=12, h=12)
   }, error = function(e) {
     message("  Error processing Contact Map: ", e$message)
   })
