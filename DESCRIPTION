@@ -1,0 +1,40 @@
+Package: AlphaGenomeR
+Title: R Interface to Google DeepMind's AlphaGenome API
+Version: 0.99.0
+Authors@R: 
+    person("Himanshu", role = c("aut", "cre"),
+           email = "2032ushimanshu@gmail.com")
+Description: Provides an R interface to the AlphaGenome API by Google DeepMind.
+    AlphaGenome offers multimodal predictions including gene expression,
+    splicing patterns, chromatin features, and contact maps for genomic regions.
+    This package bridges the official Python SDK using reticulate to handle
+    gRPC communication, allowing R users to seamlessly integrate AlphaGenome 
+    predictions into genomic analysis workflows.
+License: Apache License 2.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Depends: 
+    R (>= 4.1.0)
+Imports: 
+    reticulate,
+    glue,
+    methods
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+biocViews: 
+    Software, 
+    FunctionalGenomics, 
+    Sequencing, 
+    Splicing, 
+    GeneExpression, 
+    ATACSeq, 
+    Epigenetics, 
+    3DGenome,
+    Genetics
+SystemRequirements: Python (>= 3.10), alphagenome Python package (>= 0.6.1)
+URL: https://github.com/himanshu/AlphaGenomeR
+BugReports: https://github.com/himanshu/AlphaGenomeR/issues
