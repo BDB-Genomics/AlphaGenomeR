@@ -1,104 +1,121 @@
-# AlphaGenomeR
+# <p align="center"><img src="man/figures/logo.png" width="400"></p>
 
-**R Interface to Google DeepMind's AlphaGenome API**
+<p align="center">
+  <b>Bridging Deep Learning and Functional Genomics for the Bioconductor Ecosystem</b>
+</p>
 
-[![Bioconductor Submission](https://img.shields.io/badge/Bioconductor-Submission-blue.svg)](https://github.com/Bioconductor/Contributions/issues/4256)
-[![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Documentation](https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white)](https://mintlify.wiki/BDB-Genomics/AlphaGenomeR)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/BDB-Genomics/AlphaGenomeR)
-[![R-CMD-check](https://github.com/BDB-Genomics/AlphaGenomeR/actions/workflows/check.yml/badge.svg)](https://github.com/BDB-Genomics/AlphaGenomeR/actions)
+<p align="center">
+  <a href="https://github.com/Bioconductor/Contributions/issues/4256">
+    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue?style=for-the-badge&logo=bioconductor" alt="Bioconductor">
+  </a>
+  <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
+    <img src="https://img.shields.io/badge/Documentation-Mintlify-6366f1?style=for-the-badge&logo=gitbook" alt="Docs">
+  </a>
+  <a href="https://deepwiki.com/BDB-Genomics/AlphaGenomeR">
+    <img src="https://img.shields.io/badge/Ask-DeepWiki-FF69B4?style=for-the-badge&logo=openai" alt="Ask">
+  </a>
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-orange?style=for-the-badge" alt="License">
+  </a>
+</p>
 
-## Overview
+---
 
-AlphaGenomeR is a Bioconductor package providing a high-performance interface to **AlphaGenome**, a transformer-based model developed by Google DeepMind for functional genomics. The package enables the retrieval of multimodal predictions (RNA-seq, ATAC-seq, CAGE, ChIP-seq, and 3D contact maps) at single-base resolution across 1MB genomic intervals.
+## 🧬 Scientific Overview
 
-![Multimodal Predictions](man/figures/banner.png)
-*Figure 1: Multimodal signal tracks (RNA-seq, ATAC-seq, and CAGE) predicted for a 1MB region on Chromosome 17 using AlphaGenomeR.*
+**AlphaGenomeR** provides a unified R interface to **AlphaGenome**, Google DeepMind's state-of-the-art transformer model for functional genomics. AlphaGenome predicts a comprehensive suite of regulatory features directly from DNA sequences at **single-base resolution**.
 
-## Deep Dive: Multimodal Prediction Gallery
+Traditional genomic analysis requires vast amounts of experimental data (RNA-seq, ATAC-seq, ChIP-seq). AlphaGenomeR allows researchers to generate **in silico** predictions for any 1MB genomic window, enabling rapid hypothesis testing and regulatory element discovery without the immediate need for expensive wet-lab assays.
 
-AlphaGenome is trained to predict the functional regulatory code of DNA. Below are detailed examples of diverse modalities retrieved using AlphaGenomeR.
+---
 
-### 🧬 Chromatin Accessibility (DNase-seq)
-Predict open chromatin regions with high precision. DNase-seq peaks correspond to active regulatory elements like enhancers and promoters.
+## 🚀 Key Capabilities
 
-![DNase-seq Signal](man/figures/dnase.png)
-*Figure 2: Predicted DNase-seq signal showing regions of open chromatin across a 1MB window.*
+*   🛡️ **Multi-Modal Integration**: Query 11+ biological modalities (Expression, Chromatin, Splicing, 3D Architecture) in a single API call.
+*   🧠 **Tissue-Specific Logic**: Leverage UBERON and CL ontologies to predict how the same sequence functions in different biological contexts.
+*   ⚡ **High-Performance gRPC**: Built on a robust `reticulate` bridge to DeepMind's gRPC backend for efficient data streaming.
+*   📊 **Bioinformatics Native**: Returns standard R `matrix` and `data.frame` objects, compatible with `GenomicRanges`, `DESeq2`, and `Gviz`.
 
-### 💎 Epigenetic Landscape (Histone Marks)
-Identify biochemical modifications to histone proteins (e.g., H3K4me3) which mark active transcription and promoter regions.
+---
 
-![Histone Marks](man/figures/histone.png)
-*Figure 3: Predicted ChIP-seq signal for H3K4me3, illustrating the model's ability to capture binned epigenetic features (128bp resolution).*
+## 🎨 Results Gallery
 
-### 🧠 Tissue-Specific Regulatory Intelligence
-By leveraging **UBERON** and **CL** ontology terms, AlphaGenomeR allows you to query how the same DNA sequence behaves across different biological contexts.
+### 💎 Tissue Specificity at Scale
+AlphaGenome captures the subtle differences in the regulatory code across tissues. The plot below illustrates the predicted RNA-seq signal for the same 200kb region in Lung vs. Liver.
 
-- **Lung** (`UBERON:0002048`)
-- **Liver** (`UBERON:0002107`)
-- **K562 Cell Line** (`CL:0002064`)
+<p align="center">
+  <img src="man/figures/tissue_comparison.png" width="90%">
+</p>
 
-## Key Features
+### 🧬 Synchronized Multimodal Signal
+View synchronized tracks of chromatin accessibility (ATAC/DNase) and gene expression (RNA-seq) to identify active enhancers and promoters with base-pair precision.
 
-* **Multimodal Integration**: Simultaneous retrieval of 11+ biological modalities.
-* **Base-Pair Resolution**: Detailed signal intensity for sequences up to 1MB.
-* **Bioconductor Compatible**: Returns native R `matrix` and `data.frame` objects, ready for downstream analysis with `DESeq2`, `GenomicRanges`, or `Gviz`.
-* **High-Throughput gRPC**: Leverages the official Google DeepMind gRPC backend for efficient data streaming.
+<p align="center">
+  <img src="man/figures/multimodal_stack.png" width="90%">
+</p>
 
-## Installation
+---
 
-### Prerequisites
-AlphaGenomeR requires Python (>= 3.10) and the official `alphagenome` Python package:
+## 🛠️ Installation
+
+### 1. System Requirements
+AlphaGenomeR requires Python 3.10+ and the official SDK:
 ```bash
 pip install alphagenome
 ```
 
-### R Package
+### 2. R Package
 ```r
 if (!require("devtools")) install.packages("devtools")
 devtools::install_github("BDB-Genomics/AlphaGenomeR")
 ```
 
-## Quick Start
+---
+
+## 📖 Quick Start
 
 ```r
 library(AlphaGenomeR)
 
-# 1. Initialize API Key and Region
-api_key <- "YOUR_API_KEY"
-region  <- "chr17:42560601-43609177" 
-
-# 2. Query Predictions
+# 1. Query a 1MB genomic region for Lung tissue
 results <- alphagenome_query(
-  access_token = api_key,
-  genomic_region = region,
-  ontology_terms = c("UBERON:0002048"), # Lung
+  access_token = "YOUR_API_KEY",
+  genomic_region = "chr17:42560601-43609177",
+  ontology_terms = "UBERON:0002048",
   requested_outputs = c("RNA_SEQ", "ATAC", "DNASE")
 )
 
-# 3. Extract and Analyze
+# 2. Extract specific signal tracks
 rna_data <- alphagenome_get_rna_seq(results)
-head(rna_data$values)
+atac_data <- alphagenome_get_atac(results)
+
+# 3. Analyze native R data structures
+print(dim(rna_data$values))
 ```
 
-## Supported Modalities
+---
 
-| Category | Function | Modality |
+## 📑 Supported Extractors
+
+| Modality | Function | Description |
 | :--- | :--- | :--- |
-| **Expression** | `alphagenome_get_rna_seq()` | RNA-seq Gene Expression |
-| | `alphagenome_get_cage()` | CAGE TSS Signal |
-| **Chromatin** | `alphagenome_get_atac()` | ATAC-seq Accessibility |
-| | `alphagenome_get_dnase()` | DNase-seq Hypersensitivity |
-| **Epigenome** | `alphagenome_get_chip_tf()` | ChIP-seq (Transcription Factors) |
-| | `alphagenome_get_chip_histone()` | ChIP-seq (Histone Marks) |
-| **Splicing** | `alphagenome_get_splice_sites()` | Predicted Splice Sites |
-| | `alphagenome_get_splice_junctions()` | Splice Junction Predictions |
-| **3D Genome** | `alphagenome_get_contact_maps()` | Chromatin Contact Maps |
+| **RNA-seq** | `alphagenome_get_rna_seq()` | Predicted Gene Expression levels |
+| **ATAC-seq** | `alphagenome_get_atac()` | Chromatin Accessibility signal |
+| **DNase-seq** | `alphagenome_get_dnase()` | Hypersensitivity peaks |
+| **CAGE** | `alphagenome_get_cage()` | Transcription Start Site (TSS) signal |
+| **ChIP-seq** | `alphagenome_get_chip_tf()` | Transcription Factor Binding sites |
+| **Histone** | `alphagenome_get_chip_histone()` | Histone Modification marks |
+| **3D Genome** | `alphagenome_get_contact_maps()` | Chromatin Contact maps |
 
-## Citation
-If you use AlphaGenomeR in your research, please cite:
-> DeepMind AlphaGenome Team. "Predicting the regulatory code of DNA sequences with AlphaGenome." *Nature* (2026).
+---
 
-## License
-AlphaGenomeR is licensed under the **Apache License 2.0**.
-Usage of the AlphaGenome API is restricted to non-commercial research purposes.
+## 📜 Citation & License
+
+If you use AlphaGenomeR in your work, please cite:
+> **DeepMind AlphaGenome Team.** "Predicting the regulatory code of DNA sequences with AlphaGenome." *Nature* (2026).
+
+Licensed under **Apache License 2.0**. API usage is for **non-commercial research only**.
+
+<p align="center">
+  Developed with ❤️ by <b>AncientHearings</b> & The <b>BDB Genomics</b> Team
+</p>
