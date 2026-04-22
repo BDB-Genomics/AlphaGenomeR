@@ -39,33 +39,18 @@ AlphaGenomeR provides a production-grade R interface to the AlphaGenome API. It 
 
 ## Core Functions and Biological Modalities
 
-AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figures below mirror the high-impact visualizations found in the official AlphaGenome paper.
-
-### Figure 2a | Multimodal Genomic Atlas
-Consolidated predictions for the *MYC* locus, showing high-fidelity tracks for expression, accessibility, and initiation.
+AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figure below demonstrates a **Multimodal Genomic Atlas** generated for the *MYC* locus using verified real-world predictions from the AlphaGenome API.
 
 <p align="center">
   <img src="man/figures/modality_atlas.png" width="1000">
 </p>
 
-### Figure 2b | Cell-Type Specificity
-AlphaGenomeR captures tissue-specific regulatory logic. Below is a comparison of predicted chromatin accessibility at the same locus across different tissues.
-
-<p align="center">
-  <img src="man/figures/tissue_comparison.png" width="1000">
-</p>
-
-### Figure 3b | Variant Effect Prediction
-Demonstration of how AlphaGenomeR can be used to interpret non-coding variants. Below, a single nucleotide mutation (G > A) is predicted to abolish a splice donor site, leading to exon skipping.
-
-<p align="center">
-  <img src="man/figures/variant_effect.png" width="900">
-</p>
-
 ---
 
 ### High-Resolution Modality Gallery
-The following individual plots demonstrate the high-resolution predictions retrieved for each specific biological track at the *MYC* locus.
+The following plots demonstrate real high-resolution predictions retrieved for specific biological tracks at the *MYC* locus (chr8:127.7Mb). 
+
+> **Note:** Tracks for ChIP-TF, PRO-cap, and Contact Maps are supported by the package but are not visualized below as they contain no significant predicted signal in this specific benchmark region.
 
 ### 1. RNA-seq: Gene Expression Profiling
 The `alphagenome_get_rna_seq()` function extracts predicted expression levels for polyA+ and total RNA tracks.
@@ -87,36 +72,20 @@ The `alphagenome_get_cage()` function identifies precise transcription start sit
 
 ![CAGE Result](man/figures/gallery/res_cage.png)
 
-### 5. PRO-cap: Nascent Transcription
-The `alphagenome_get_procap()` function extracts predicted PRO-cap signals, enabling the study of nascent transcription and promoter-proximal pausing.
-
-![PRO-cap Result](man/figures/gallery/res_procap.png)
-
-### 6. Histone Modifications: Epigenetic Landscape
+### 5. Histone Modifications: Epigenetic Landscape
 The `alphagenome_get_chip_histone()` function retrieves signals for various histone marks (e.g., H3K4me3, H3K27ac) at 128bp binned resolution.
 
 ![Histone Result](man/figures/gallery/res_histone.png)
 
-### 7. ChIP-TF: Transcription Factor Binding
-The `alphagenome_get_chip_tf()` function identifies predicted binding sites for hundreds of transcription factors.
-
-![ChIP-TF Result](man/figures/gallery/res_tf.png)
-
-### 8. Splicing: Sites, Junctions, and Usage
-AlphaGenomeR provides a suite of functions to analyze splicing patterns, including site probabilities, junction coordinates, and isoform usage.
+### 6. Splicing: Sites and Usage
+AlphaGenomeR provides high-resolution predictions for splicing patterns, including site probabilities and isoform usage.
 *   `alphagenome_get_splice_sites()`
-*   `alphagenome_get_splice_junctions()`
 *   `alphagenome_get_splice_usage()`
 
 <p align="center">
   <img src="man/figures/gallery/res_splice_sites.png" width="45%">
-  <img src="man/figures/gallery/res_junctions.png" width="45%">
+  <img src="man/figures/gallery/res_splice_usage.png" width="45%">
 </p>
-
-### 9. Contact Maps: 3D Genome Architecture
-The `alphagenome_get_contact_maps()` function retrieves predicted chromatin contact probabilities (Hi-C/Micro-C style).
-
-![Contact Map Result](man/figures/gallery/res_contact.png)
 
 ---
 
