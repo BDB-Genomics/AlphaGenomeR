@@ -1,13 +1,25 @@
-# AlphaGenomeR
+<p align="center">
+  <img src="man/figures/logo.png" width="400">
+</p>
 
-<p align="center"><img src="man/figures/logo.png" width="400"></p>
+<p align="center">
+  <b>High-Resolution R Interface for Functional Genomic Predictions</b>
+</p>
 
-**High-Resolution R Interface for Functional Genomic Predictions**
-
-[![Bioconductor Submission](https://img.shields.io/badge/Bioconductor-Submission-blue.svg)](https://github.com/Bioconductor/Contributions/issues/4256)
-[![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Documentation](https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white)](https://mintlify.wiki/BDB-Genomics/AlphaGenomeR)
-[![R-CMD-check](https://github.com/BDB-Genomics/AlphaGenomeR/actions/workflows/check.yml/badge.svg)](https://github.com/BDB-Genomics/AlphaGenomeR/actions)
+<p align="center">
+  <a href="https://github.com/Bioconductor/Contributions/issues/4256">
+    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg" alt="Bioconductor Submission">
+  </a>
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg" alt="License">
+  </a>
+  <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
+    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white" alt="Documentation">
+  </a>
+  <a href="https://github.com/BDB-Genomics/AlphaGenomeR/actions">
+    <img src="https://github.com/BDB-Genomics/AlphaGenomeR/actions/workflows/check.yml/badge.svg" alt="R-CMD-check">
+  </a>
+</p>
 
 ## Overview
 
