@@ -14,37 +14,45 @@ AlphaGenomeR is a Bioconductor package providing a high-performance interface to
 ![Multimodal Predictions](man/figures/banner.png)
 *Figure 1: Multimodal signal tracks (RNA-seq, ATAC-seq, and CAGE) predicted for a 1MB region on Chromosome 17 using AlphaGenomeR.*
 
-By bridging the official gRPC-based Python SDK via `reticulate`, AlphaGenomeR allows researchers to seamlessly integrate state-of-the-art AI predictions into standard R/Bioconductor genomic analysis workflows.
+## Deep Dive: Multimodal Prediction Gallery
 
-## Gallery of Multimodal Predictions
+AlphaGenome is trained to predict the functional regulatory code of DNA. Below are detailed examples of diverse modalities retrieved using AlphaGenomeR.
 
-To build trust in the model's capabilities, the following plots illustrate real-world predictions retrieved using AlphaGenomeR:
+### 🧬 Chromatin Accessibility (DNase-seq)
+Predict open chromatin regions with high precision. DNase-seq peaks correspond to active regulatory elements like enhancers and promoters.
 
-### 💎 Chromatin Accessibility & Transcription
-The model provides high-resolution insights into the regulatory landscape, identifying open chromatin regions (ATAC-seq) and precise transcription start sites (CAGE).
+![DNase-seq Signal](man/figures/dnase.png)
+*Figure 2: Predicted DNase-seq signal showing regions of open chromatin across a 1MB window.*
 
-### 🧬 Tissue-Specific Expression
-By utilizing UBERON/CL ontologies, users can query tissue-specific regulatory codes, such as lung-specific RNA-seq signal across large genomic windows.
+### 💎 Epigenetic Landscape (Histone Marks)
+Identify biochemical modifications to histone proteins (e.g., H3K4me3) which mark active transcription and promoter regions.
+
+![Histone Marks](man/figures/histone.png)
+*Figure 3: Predicted ChIP-seq signal for H3K4me3, illustrating the model's ability to capture binned epigenetic features (128bp resolution).*
+
+### 🧠 Tissue-Specific Regulatory Intelligence
+By leveraging **UBERON** and **CL** ontology terms, AlphaGenomeR allows you to query how the same DNA sequence behaves across different biological contexts.
+
+- **Lung** (`UBERON:0002048`)
+- **Liver** (`UBERON:0002107`)
+- **K562 Cell Line** (`CL:0002064`)
 
 ## Key Features
 
-* **Multimodal Data**: Simultaneous prediction of 11+ genomic signal tracks.
-* **Tissue Specificity**: Filtering of predictions using UBERON and CL ontology terms.
-* **High Resolution**: Single-base pair signal intensity across large genomic windows.
-* **Bioconductor Compatibility**: Returns R-native `matrix` and `data.frame` objects.
+* **Multimodal Integration**: Simultaneous retrieval of 11+ biological modalities.
+* **Base-Pair Resolution**: Detailed signal intensity for sequences up to 1MB.
+* **Bioconductor Compatible**: Returns native R `matrix` and `data.frame` objects, ready for downstream analysis with `DESeq2`, `GenomicRanges`, or `Gviz`.
+* **High-Throughput gRPC**: Leverages the official Google DeepMind gRPC backend for efficient data streaming.
 
 ## Installation
 
 ### Prerequisites
-
 AlphaGenomeR requires Python (>= 3.10) and the official `alphagenome` Python package:
-
 ```bash
 pip install alphagenome
 ```
 
 ### R Package
-
 ```r
 if (!require("devtools")) install.packages("devtools")
 devtools::install_github("BDB-Genomics/AlphaGenomeR")
@@ -52,28 +60,24 @@ devtools::install_github("BDB-Genomics/AlphaGenomeR")
 
 ## Quick Start
 
-The following example demonstrates how to query multimodal predictions for a 1MB region on Chromosome 17:
-
 ```r
 library(AlphaGenomeR)
 
-# 1. Initialize API Key and Genomic Region (hg38)
+# 1. Initialize API Key and Region
 api_key <- "YOUR_API_KEY"
 region  <- "chr17:42560601-43609177" 
 
-# 2. Query Predictions for Lung Tissue (UBERON:0002048)
+# 2. Query Predictions
 results <- alphagenome_query(
   access_token = api_key,
   genomic_region = region,
-  ontology_terms = c("UBERON:0002048"),
-  requested_outputs = c("RNA_SEQ", "ATAC")
+  ontology_terms = c("UBERON:0002048"), # Lung
+  requested_outputs = c("RNA_SEQ", "ATAC", "DNASE")
 )
 
-# 3. Extract and Plot Signal
+# 3. Extract and Analyze
 rna_data <- alphagenome_get_rna_seq(results)
-plot(rna_data$values[,1], type="l", col="red", 
-     main="Predicted RNA-seq Signal (Lung)", 
-     xlab="Position", ylab="Intensity")
+head(rna_data$values)
 ```
 
 ## Supported Modalities
@@ -91,11 +95,9 @@ plot(rna_data$values[,1], type="l", col="red",
 | **3D Genome** | `alphagenome_get_contact_maps()` | Chromatin Contact Maps |
 
 ## Citation
-
 If you use AlphaGenomeR in your research, please cite:
 > DeepMind AlphaGenome Team. "Predicting the regulatory code of DNA sequences with AlphaGenome." *Nature* (2026).
 
 ## License
-
 AlphaGenomeR is licensed under the **Apache License 2.0**.
-Note: Usage of the AlphaGenome API is restricted to non-commercial research purposes.
+Usage of the AlphaGenome API is restricted to non-commercial research purposes.
