@@ -95,7 +95,7 @@ alphagenome_query <- function(access_token,
   results_r <- reticulate::py_to_r(results)
   
   # ATTACH MANDATORY CITATION INFO
-  results_r$citation_agreement <- "Please cite AlphaGenomeR (Himanshu, 2026) and AlphaGenome (Nature, 2026)."
+  results_r$citation_agreement <- "Himanshu (2026). AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions. R package version 0.99.0, https://github.com/BDB-Genomics/AlphaGenomeR"
   
   return(results_r)
 

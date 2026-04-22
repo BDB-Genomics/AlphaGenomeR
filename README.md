@@ -24,7 +24,7 @@
 
 **Mandatory Requirement:** If you use this package in your research, you are required to cite both the package and the underlying model:
 
-1.  **AlphaGenomeR**: Himanshu. "AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions." (2026).
+1.  **AlphaGenomeR**: Himanshu (2026). "AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions." R package version 0.99.0, https://github.com/BDB-Genomics/AlphaGenomeR.
 2.  **AlphaGenome Model**: DeepMind AlphaGenome Team. "Predicting the regulatory code of DNA sequences with AlphaGenome." *Nature* (2026).
 
 Run `citation("AlphaGenomeR")` in R for the formal BibTeX references.
