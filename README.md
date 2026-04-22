@@ -11,7 +11,20 @@
 
 AlphaGenomeR is a Bioconductor package providing a high-performance interface to **AlphaGenome**, a transformer-based model developed by Google DeepMind for functional genomics. The package enables the retrieval of multimodal predictions (RNA-seq, ATAC-seq, CAGE, ChIP-seq, and 3D contact maps) at single-base resolution across 1MB genomic intervals.
 
+![Multimodal Predictions](man/figures/banner.png)
+*Figure 1: Multimodal signal tracks (RNA-seq, ATAC-seq, and CAGE) predicted for a 1MB region on Chromosome 17 using AlphaGenomeR.*
+
 By bridging the official gRPC-based Python SDK via `reticulate`, AlphaGenomeR allows researchers to seamlessly integrate state-of-the-art AI predictions into standard R/Bioconductor genomic analysis workflows.
+
+## Gallery of Multimodal Predictions
+
+To build trust in the model's capabilities, the following plots illustrate real-world predictions retrieved using AlphaGenomeR:
+
+### 💎 Chromatin Accessibility & Transcription
+The model provides high-resolution insights into the regulatory landscape, identifying open chromatin regions (ATAC-seq) and precise transcription start sites (CAGE).
+
+### 🧬 Tissue-Specific Expression
+By utilizing UBERON/CL ontologies, users can query tissue-specific regulatory codes, such as lung-specific RNA-seq signal across large genomic windows.
 
 ## Key Features
 
