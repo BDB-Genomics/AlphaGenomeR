@@ -18,6 +18,9 @@
   <a href="https://github.com/BDB-Genomics/AlphaGenomeR/actions">
     <img src="https://github.com/BDB-Genomics/AlphaGenomeR/actions/workflows/check.yml/badge.svg" alt="R-CMD-check">
   </a>
+  <a href="https://deepwiki.com/BDB-Genomics/AlphaGenomeR">
+    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+  </a>
 </p>
 
 ---
