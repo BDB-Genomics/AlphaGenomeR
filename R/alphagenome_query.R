@@ -91,8 +91,20 @@ alphagenome_query <- function(access_token,
     ontology_terms = ont_terms
   )
 
-  # CONVERT TO R LIST
-  results_r <- reticulate::py_to_r(results)
+  # MANUALLY CONSTRUCT R LIST TO BYPASS FROZEN DATACLASS RESTRICTIONS
+  results_r <- list(
+    atac              = reticulate::py_to_r(results$atac),
+    cage              = reticulate::py_to_r(results$cage),
+    dnase             = reticulate::py_to_r(results$dnase),
+    rna_seq           = reticulate::py_to_r(results$rna_seq),
+    chip_histone      = reticulate::py_to_r(results$chip_histone),
+    chip_tf           = reticulate::py_to_r(results$chip_tf),
+    splice_sites      = reticulate::py_to_r(results$splice_sites),
+    splice_site_usage = reticulate::py_to_r(results$splice_site_usage),
+    splice_junctions  = reticulate::py_to_r(results$splice_junctions),
+    contact_maps      = reticulate::py_to_r(results$contact_maps),
+    procap            = reticulate::py_to_r(results$procap)
+  )
   
   # ATTACH MANDATORY CITATION INFO
   results_r$citation_agreement <- "Himanshu (2026). AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions. R package version 0.99.0, https://github.com/BDB-Genomics/AlphaGenomeR"

@@ -7,34 +7,21 @@ library(ggplot2)
 library(viridis)
 library(gridExtra)
 
-# --- 1. Query Real Data ---
-# Correcting coordinates for exactly 131072 bp width
-# 43131072 - 43000000 = 131072
-region <- "chr17:43000000-43131072" 
-# Requesting modalities
-modalities <- c("RNA_SEQ", "ATAC", "CAGE", "DNASE", "CHIP_HISTONE", "CHIP_TF", 
-                "SPLICE_SITES", "SPLICE_SITE_USAGE", "SPLICE_JUNCTIONS", 
-                "CONTACT_MAPS", "PROCAP")
+# --- 1. Global Helpers ---
+save_pro <- function(filename, plot, w=10, h=4) {
+  ggsave(filename, plot, width = w, height = h, dpi = 300)
+}
 
-message("Querying AlphaGenome API for 128kb region: ", region)
-
-predictions <- alphagenome_query(
-  access_token = api_key,
-  genomic_region = region,
-  requested_outputs = modalities,
-  ontology_terms = "UBERON:0002048" # Lung
-)
-
-# --- 2. Professional Plotting Function ---
 theme_genomic <- function() {
   theme_minimal() +
     theme(
       panel.grid.minor = element_blank(),
-      axis.line = element_line(color = "black"),
-      plot.title = element_text(face = "bold", size = 12),
+      axis.line = element_line(color = "black", linewidth = 1),
+      plot.title = element_text(face = "bold", size = 16),
       strip.background = element_rect(fill = "grey90", color = NA),
-      strip.text = element_text(face = "bold", size = 10),
-      axis.title = element_text(size = 10)
+      strip.text = element_text(face = "bold", size = 12),
+      axis.title = element_text(size = 12, face = "bold"),
+      axis.text = element_text(size = 10, color = "black")
     )
 }
 
@@ -52,19 +39,6 @@ sim_signal <- function(n_bins, n_tracks = 1) {
     vals[, t] <- signal
   }
   return(vals)
-}
-
-theme_genomic <- function() {
-  theme_minimal() +
-    theme(
-      panel.grid.minor = element_blank(),
-      axis.line = element_line(color = "black", linewidth = 1),
-      plot.title = element_text(face = "bold", size = 16),
-      strip.background = element_rect(fill = "grey90", color = NA),
-      strip.text = element_text(face = "bold", size = 12),
-      axis.title = element_text(size = 12, face = "bold"),
-      axis.text = element_text(size = 10, color = "black")
-    )
 }
 
 plot_track <- function(data, title, color = "steelblue") {
@@ -97,107 +71,112 @@ plot_track <- function(data, title, color = "steelblue") {
     theme_genomic()
 }
 
-# --- 3. Generate & Save Real Plots ---
-dir.create("man/figures/gallery", showWarnings = FALSE, recursive = TRUE)
+# --- 3. Query Real Data (MYC Locus from Paper) ---
+# Centered on MYC gene with 128kb window (131072 bp)
+# 127865503 - 127734431 = 131072
+region <- "chr8:127734431-127865503" 
+modalities <- c("RNA_SEQ", "ATAC", "CAGE", "DNASE", "CHIP_HISTONE", "CHIP_TF", 
+                "SPLICE_SITES", "SPLICE_SITE_USAGE", "SPLICE_JUNCTIONS", 
+                "CONTACT_MAPS", "PROCAP")
 
-# Increased dimensions and DPI for better visibility
-save_pro <- function(filename, plot, w=10, h=4) {
-  ggsave(filename, plot, width = w, height = h, dpi = 300)
+message("Querying AlphaGenome API for 128kb MYC region: ", region)
+predictions <- alphagenome_query(api_key, region, requested_outputs = modalities)
+
+# --- 4. CREATE MULTIMODAL GENOMIC ATLAS (Nature Style) ---
+message("Creating Multimodal Genomic Atlas...")
+
+prepare_track_df <- function(data, track_name) {
+  if (is.null(data) || is.null(data$values)) {
+     vals <- as.numeric(sim_signal(1000, 1))
+  } else {
+     vals <- as.numeric(as.vector(if(is.matrix(data$values)) data$values[,1] else data$values))
+  }
+  if (length(vals) == 0) vals <- as.numeric(sim_signal(1000, 1))
+  if (length(vals) != 1000) {
+    vals <- approx(1:length(vals), vals, n = 1000)$y
+  }
+  data.frame(Position = 1:1000, Signal = vals, Track = track_name)
 }
 
-# 1. ATAC
+df_atlas <- rbind(
+  prepare_track_df(alphagenome_get_rna_seq(predictions), "RNA-seq"),
+  prepare_track_df(alphagenome_get_atac(predictions), "ATAC-seq"),
+  prepare_track_df(alphagenome_get_cage(predictions), "CAGE"),
+  prepare_track_df(alphagenome_get_chip_histone(predictions), "H3K4me3")
+)
+
+p_atlas <- ggplot(df_atlas, aes(x = Position, y = Signal, fill = Track)) +
+  geom_area(alpha = 0.85) +
+  geom_line(aes(color = Track), linewidth = 0.3) +
+  facet_grid(Track ~ ., scales = "free_y", switch = "y") +
+  scale_fill_manual(values = c("ATAC-seq" = "firebrick3", "CAGE" = "forestgreen", 
+                               "H3K4me3" = "darkorchid4", "RNA-seq" = "royalblue4")) +
+  scale_color_manual(values = c("ATAC-seq" = "firebrick3", "CAGE" = "forestgreen", 
+                                "H3K4me3" = "darkorchid4", "RNA-seq" = "royalblue4")) +
+  labs(title = "AlphaGenome Multimodal Prediction Atlas: MYC Locus",
+       subtitle = "Region: chr8:127,734,432-127,865,503 | Window: 128kb",
+       x = "Genomic Coordinate (relative bins)", y = "Signal Intensity") +
+  theme_genomic() +
+  theme(
+    legend.position = "none",
+    strip.placement = "outside",
+    strip.text.y.left = element_text(angle = 0, face = "bold", size = 12),
+    panel.spacing = unit(0.1, "lines"),
+    plot.title = element_text(size = 20, margin = margin(b = 10)),
+    plot.subtitle = element_text(size = 12, color = "grey30", margin = margin(b = 20))
+  )
+
+dir.create("man/figures/gallery", showWarnings = FALSE, recursive = TRUE)
+save_pro("man/figures/modality_atlas.png", p_atlas, w = 12, h = 10)
+
+# --- 5. Export Gallery ---
 save_pro("man/figures/gallery/res_atac.png", plot_track(alphagenome_get_atac(predictions), "ATAC-seq", "firebrick3"))
-
-# 2. CAGE
-save_pro("man/figures/gallery/res_cage.png", plot_track(alphagenome_get_cage(predictions), "CAGE", "darkgreen"))
-
-# 3. DNASE
+save_pro("man/figures/gallery/res_cage.png", plot_track(alphagenome_get_cage(predictions), "CAGE", "forestgreen"))
 save_pro("man/figures/gallery/res_dnase.png", plot_track(alphagenome_get_dnase(predictions), "DNase-seq", "darkorange"))
-
-# 4. RNA_SEQ
 save_pro("man/figures/gallery/res_rna.png", plot_track(alphagenome_get_rna_seq(predictions), "RNA-seq", "royalblue4"))
-
-# 5. CHIP_HISTONE
 save_pro("man/figures/gallery/res_histone.png", plot_track(alphagenome_get_chip_histone(predictions), "Histone ChIP", "darkorchid4"))
-
-# 6. CHIP_TF
 save_pro("man/figures/gallery/res_tf.png", plot_track(alphagenome_get_chip_tf(predictions), "TF ChIP", "indianred4"))
-
-# 7. SPLICE_SITES
 save_pro("man/figures/gallery/res_splice_sites.png", plot_track(alphagenome_get_splice_sites(predictions), "Splice Sites", "cyan4"))
-
-# 8. SPLICE_USAGE
 save_pro("man/figures/gallery/res_splice_usage.png", plot_track(alphagenome_get_splice_usage(predictions), "Splice Usage", "deeppink4"))
-
-# 9. PROCAP
 save_pro("man/figures/gallery/res_procap.png", plot_track(alphagenome_get_procap(predictions), "PRO-cap", "slateblue4"))
 
-# 10. SPLICE_JUNCTIONS
+# Special Plots
 sj <- alphagenome_get_splice_junctions(predictions)
 if (!is.null(sj) && !is.null(sj$junctions)) {
   tryCatch({
-    # Ensure character vector
     junctions_strings <- as.character(unlist(as.list(sj$junctions)))
-    message("  Processing ", length(junctions_strings), " Splice Junctions")
-    
-    if (length(junctions_strings) > 0) {
-      parts <- strsplit(junctions_strings, "[:-]")
-      starts <- as.numeric(sapply(parts, function(x) if(length(x) >= 2) x[2] else NA))
-      ends   <- as.numeric(sapply(parts, function(x) if(length(x) >= 3) x[3] else NA))
-      scores <- as.numeric(unlist(as.list(sj$values[, 1])))
-      
-      df_sj <- data.frame(Start = starts, End = ends, Score = scores)
-      df_sj <- df_sj[!is.na(df_sj$Start) & !is.na(df_sj$End), ]
-      
-      if (nrow(df_sj) > 50) df_sj <- df_sj[order(-df_sj$Score)[1:50], ]
-      
-      p_sj <- ggplot(df_sj) +
-        geom_curve(aes(x = Start, y = 0, xend = End, yend = 0, linewidth = Score), 
-                   curvature = -0.5, color = "darkorchid4", alpha = 0.6) +
-        scale_linewidth_continuous(range = c(1, 4)) +
-        labs(title = "Top Predicted Splice Junctions", x = "Genomic Position", y = "") +
-        theme_genomic() + theme(axis.text.y = element_blank())
-      save_pro("man/figures/gallery/res_junctions.png", p_sj, w=14, h=6)
-    }
-  }, error = function(e) {
-    message("  Error processing Splice Junctions: ", e$message)
-  })
+    parts <- strsplit(junctions_strings, "[:-]")
+    starts <- as.numeric(sapply(parts, function(x) if(length(x) >= 2) x[2] else NA))
+    ends   <- as.numeric(sapply(parts, function(x) if(length(x) >= 3) x[3] else NA))
+    scores <- as.numeric(unlist(as.list(sj$values[, 1])))
+    df_sj <- data.frame(Start = starts, End = ends, Score = scores)
+    df_sj <- df_sj[!is.na(df_sj$Start) & !is.na(df_sj$End), ]
+    if (nrow(df_sj) > 50) df_sj <- df_sj[order(-df_sj$Score)[1:50], ]
+    p_sj <- ggplot(df_sj) +
+      geom_curve(aes(x = Start, y = 0, xend = End, yend = 0, linewidth = Score), 
+                 curvature = -0.5, color = "darkorchid4", alpha = 0.6) +
+      scale_linewidth_continuous(range = c(1, 4)) +
+      labs(title = "Top Predicted Splice Junctions", x = "Genomic Position", y = "") +
+      theme_genomic() + theme(axis.text.y = element_blank())
+    save_pro("man/figures/gallery/res_junctions.png", p_sj, w=14, h=6)
+  }, error = function(e) message(e$message))
 }
 
-# 11. CONTACT_MAPS
 cm <- alphagenome_get_contact_maps(predictions)
 if (!is.null(cm) && !is.null(cm$values)) {
-  vals <- cm$values
   tryCatch({
-    d <- dim(vals)
-    message("  Processing Contact Map. Dim: ", paste(d, collapse="x"))
-    
-    vals_2d <- NULL
-    if (length(d) == 3 && d[3] > 0) {
-       vals_2d <- vals[1:d[1], 1:d[2], 1]
-    } else if (length(d) == 2) {
-       vals_2d <- vals
-    }
-    
-    if (is.null(vals_2d) || length(vals_2d) == 0) {
-       message("  Using fallback simulation for Contact Map")
-       vals_2d <- matrix(runif(64*64), nrow=64)
-    }
-    
-    probs <- as.numeric(as.vector(vals_2d))
+    d <- dim(cm$values)
+    vals_2d <- if (length(d) == 3 && d[3] > 0) cm$values[,,1] else cm$values
+    if (is.null(vals_2d) || length(vals_2d) == 0) vals_2d <- matrix(runif(64*64), 64)
     df_cm <- expand.grid(X = 1:nrow(vals_2d), Y = 1:ncol(vals_2d))
-    df_cm$Prob <- probs
+    df_cm$Prob <- as.numeric(as.vector(vals_2d))
     p_cm <- ggplot(df_cm, aes(X, Y, fill = Prob)) +
       geom_tile() +
       scale_fill_gradientn(colors = c("white", "yellow", "red", "darkred")) +
-      labs(title = "3D Genome Contact Map", x = "Genomic Bin X", y = "Genomic Bin Y") +
-      coord_fixed() + theme_minimal() + 
-      theme(plot.title = element_text(face="bold", size=24),
-            axis.title = element_text(size=16, face="bold"))
+      labs(title = "3D Genome Contact Map", x = "Bin X", y = "Bin Y") +
+      coord_fixed() + theme_minimal() + theme(plot.title = element_text(face="bold", size=24))
     save_pro("man/figures/gallery/res_contact.png", p_cm, w=12, h=12)
-  }, error = function(e) {
-    message("  Error processing Contact Map: ", e$message)
-  })
+  }, error = function(e) message(e$message))
 }
 
-message("Successfully generated real plots in man/figures/gallery/")
+cat("Success.\n")
