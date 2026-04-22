@@ -29,37 +29,58 @@ AlphaGenomeR provides a production-grade R interface to the AlphaGenome API. It 
 
 ## Core Functions and Biological Modalities
 
-AlphaGenomeR provides specialized extractors for each predicted biological signal. The following examples demonstrate the high-resolution data retrieved for a 1MB region on Chromosome 17.
+AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The following examples demonstrate the predictions retrieved via the package extractors.
 
-### RNA-seq: Gene Expression Profiling
+### 1. RNA-seq: Gene Expression Profiling
 The `alphagenome_get_rna_seq()` function extracts predicted expression levels for polyA+ and total RNA tracks.
 
-![RNA-seq Result](man/figures/res_rna.png)
+![RNA-seq Result](man/figures/gallery/res_rna.png)
 
-### ATAC-seq: Chromatin Accessibility
+### 2. ATAC-seq: Chromatin Accessibility
 The `alphagenome_get_atac()` function retrieves predicted chromatin accessibility, identifying regions of open chromatin with base-pair precision.
 
-![ATAC-seq Result](man/figures/res_atac.png)
+![ATAC-seq Result](man/figures/gallery/res_atac.png)
 
-### DNase-seq: Regulatory Element Mapping
+### 3. DNase-seq: Regulatory Element Mapping
 The `alphagenome_get_dnase()` function extracts hypersensitivity signals, which are highly correlated with active enhancers and promoters.
 
-![DNase-seq Result](man/figures/res_dnase.png)
+![DNase-seq Result](man/figures/gallery/res_dnase.png)
 
-### CAGE: Transcription Start Site Discovery
+### 4. CAGE: Transcription Start Site Discovery
 The `alphagenome_get_cage()` function identifies precise transcription start sites by predicting Cap Analysis Gene Expression signal.
 
-![CAGE Result](man/figures/res_cage.png)
+![CAGE Result](man/figures/gallery/res_cage.png)
 
-### Histone Modifications: Epigenetic Landscape
+### 5. PRO-cap: Nascent Transcription
+The `alphagenome_get_procap()` function extracts predicted PRO-cap signals, enabling the study of nascent transcription and promoter-proximal pausing.
+
+![PRO-cap Result](man/figures/gallery/res_procap.png)
+
+### 6. Histone Modifications: Epigenetic Landscape
 The `alphagenome_get_chip_histone()` function retrieves signals for various histone marks (e.g., H3K4me3, H3K27ac) at 128bp binned resolution.
 
-![Histone Result](man/figures/res_histone.png)
+![Histone Result](man/figures/gallery/res_histone.png)
 
-### Splicing Patterns: Splice Site Prediction
-The `alphagenome_get_splice_sites()` function extracts predicted probabilities for 5' and 3' splice sites across the genomic window.
+### 7. ChIP-TF: Transcription Factor Binding
+The `alphagenome_get_chip_tf()` function identifies predicted binding sites for hundreds of transcription factors.
 
-![Splice Result](man/figures/res_splice.png)
+![ChIP-TF Result](man/figures/gallery/res_tf.png)
+
+### 8. Splicing: Sites, Junctions, and Usage
+AlphaGenomeR provides a suite of functions to analyze splicing patterns, including site probabilities, junction coordinates, and isoform usage.
+*   `alphagenome_get_splice_sites()`
+*   `alphagenome_get_splice_junctions()`
+*   `alphagenome_get_splice_usage()`
+
+<p align="center">
+  <img src="man/figures/gallery/res_splice_sites.png" width="45%">
+  <img src="man/figures/gallery/res_junctions.png" width="45%">
+</p>
+
+### 9. Contact Maps: 3D Genome Architecture
+The `alphagenome_get_contact_maps()` function retrieves predicted chromatin contact probabilities (Hi-C/Micro-C style).
+
+![Contact Map Result](man/figures/gallery/res_contact.png)
 
 ---
 

@@ -2,17 +2,24 @@
 #'
 #' @param response_body The response body from the AlphaGenome API
 #' @return A list with 'values' (numeric matrix) and 'metadata' (data.frame)
+#' @importFrom reticulate py_to_r
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' response <- alphagenome_query(access_token = "YOUR_API_KEY", genomic_region = "chr1:1000000-1001000")
+#' data <- alphagenome_get_chip_tf(response)
+#' }
 alphagenome_get_chip_tf <- function(response_body) {
 
-  # EXTRACT THE CHIP_TF DATA
-  track_data <- reticulate::py_get_attr(response_body, "chip_tf")
-  
-  if (inherits(track_data, "python.builtin.NoneType")) return(NULL)
+  # EXTRACT THE CHIP DATA
+  track_data <- response_body$chip_tf
 
-  return(list(
-    values   = reticulate::py_to_r(reticulate::py_get_attr(track_data, "values")),
-    metadata = reticulate::py_to_r(reticulate::py_get_attr(track_data, "metadata"))
-  ))
+  if (is.null(track_data)) return(NULL)
+
+  list(
+    values   = reticulate::py_to_r(track_data$values),
+    metadata = reticulate::py_to_r(track_data$metadata)
+  )
 
 }

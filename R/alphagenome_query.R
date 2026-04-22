@@ -6,7 +6,18 @@
 #' @param requested_outputs Character vector of modalities. Default: c("RNA_SEQ", "ATAC", "CAGE")
 #' @param ontology_terms Character vector of tissue/cell type terms (e.g., "UBERON:0002048")
 #' @return A list containing the multimodal predictions
+#' 
+#' @importFrom reticulate py_module_available import py_to_r
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#'   results <- alphagenome_query(
+#'     access_token = "YOUR_API_KEY",
+#'     genomic_region = "chr17:42560601-43609177",
+#'     ontology_terms = "UBERON:0002048"
+#'   )
+#' }
 alphagenome_query <- function(access_token, 
                               genomic_region, 
                               organism = "HOMO_SAPIENS",
@@ -20,6 +31,11 @@ alphagenome_query <- function(access_token,
 
   if (missing(genomic_region)) {
     stop("Genomic region is not provided.")
+  }
+
+  # STRICT REGEX VALIDATION FOR GENOMIC REGION
+  if (!grepl("^chr[0-9XYM]+:[0-9]+-[0-9]+$", genomic_region)) {
+    stop("genomic_region must be in 'chrN:start-end' format.")
   }
 
   # INITIALIZE PYTHON BRIDGE
@@ -50,12 +66,7 @@ alphagenome_query <- function(access_token,
   }
 
   # PARSE REGION
-  # Expected format "chr:start-end"
   parts <- strsplit(genomic_region, "[:-]")[[1]]
-  if (length(parts) < 3) {
-    stop("genomic_region must be in 'chr:start-end' format.")
-  }
-  
   chrom <- parts[1]
   start <- as.integer(parts[2])
   end <- as.integer(parts[3])
@@ -67,7 +78,6 @@ alphagenome_query <- function(access_token,
   interval <- ag_genome$Interval(chromosome = chrom, start = start, end = end)
 
   # EXECUTE PREDICTION
-  # Note: 1MB resolution is often required by the model
   ont_terms <- if (is.null(ontology_terms)) list() else as.list(ontology_terms)
 
   results <- client$predict_interval(

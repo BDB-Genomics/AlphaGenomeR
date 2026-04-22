@@ -10,8 +10,14 @@ alphagenome_get_splice_junctions(response_body)
 \item{response_body}{The response body from the AlphaGenome API}
 }
 \value{
-A list with 'values' (numeric matrix) and 'metadata' (data.frame)
+A list with 'values' (numeric matrix), 'metadata' (data.frame), and 'junctions' (data.frame)
 }
 \description{
 Extract SPLICE_JUNCTIONS data from the AlphaGenome API response
+}
+\examples{
+\dontrun{
+response <- alphagenome_query(access_token = "YOUR_API_KEY", genomic_region = "chr1:1000000-1001000")
+data <- alphagenome_get_splice_junctions(response)
+}
 }
