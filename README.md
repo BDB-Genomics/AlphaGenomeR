@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://bioconductor.org/packages/AlphaGenomeR">
-    <img src="https://img.shields.io/badge/Bioconductor-Release-blue.svg" alt="Bioconductor">
+  <a href="https://github.com/Bioconductor/Contributions/issues/4256">
+    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg" alt="Bioconductor Submission">
   </a>
   <a href="https://opensource.org/licenses/Apache-2.0">
     <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg" alt="License">
