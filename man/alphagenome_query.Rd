@@ -29,6 +29,12 @@ A list containing the multimodal predictions
 \description{
 Query the AlphaGenome API
 }
+\section{Citation Agreement}{
+
+By using this function, you agree to cite the AlphaGenomeR package in any
+resulting publications. Run \code{citation("AlphaGenomeR")} for the formal reference.
+}
+
 \examples{
 \dontrun{
   results <- alphagenome_query(

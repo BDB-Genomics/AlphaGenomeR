@@ -7,6 +7,10 @@
 #' @param ontology_terms Character vector of tissue/cell type terms (e.g., "UBERON:0002048")
 #' @return A list containing the multimodal predictions
 #' 
+#' @section Citation Agreement:
+#' By using this function, you agree to cite the AlphaGenomeR package in any 
+#' resulting publications. Run `citation("AlphaGenomeR")` for the formal reference.
+#' 
 #' @importFrom reticulate py_module_available import py_to_r
 #' @export
 #'
@@ -88,6 +92,11 @@ alphagenome_query <- function(access_token,
   )
 
   # CONVERT TO R LIST
-  return(reticulate::py_to_r(results))
+  results_r <- reticulate::py_to_r(results)
+  
+  # ATTACH MANDATORY CITATION INFO
+  results_r$citation_agreement <- "Please cite AlphaGenomeR (Himanshu, 2026) and AlphaGenome (Nature, 2026)."
+  
+  return(results_r)
 
 }
