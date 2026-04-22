@@ -18,8 +18,8 @@
   <a href="https://github.com/BDB-Genomics/AlphaGenomeR/actions">
     <img src="https://github.com/BDB-Genomics/AlphaGenomeR/actions/workflows/check.yml/badge.svg" alt="R-CMD-check">
   </a>
-  <a href="https://deepwiki.com/BDB-Genomics/AlphaGenomeR">
-    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+  <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
+    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white" alt="Mintlify Wiki">
   </a>
 </p>
 
