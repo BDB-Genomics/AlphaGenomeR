@@ -1,7 +1,7 @@
 # <p align="center"><img src="man/figures/logo.png" width="400"></p>
 
 <p align="center">
-  <b>Bridging Deep Learning and Functional Genomics for the Bioconductor Ecosystem</b>
+  <b>High-Resolution Functional Genomics Bridge for Bioconductor</b>
 </p>
 
 <p align="center">
@@ -23,54 +23,40 @@
 
 ## 🧬 Scientific Overview
 
-**AlphaGenomeR** provides a unified R interface to the **AlphaGenome** API, a state-of-the-art transformer model for functional genomics. It enables researchers to predict a comprehensive suite of regulatory features directly from DNA sequences at **single-base resolution**.
+**AlphaGenomeR** is a state-of-the-art R interface to the **AlphaGenome** API. It empowers researchers to generate **single-base resolution** functional genomic predictions directly from DNA sequences across 1MB genomic windows. 
 
-Traditional genomic analysis relies on expensive wet-lab assays. AlphaGenomeR allows you to generate **in silico** predictions for any 1MB genomic window, facilitating rapid hypothesis testing and discovery of novel regulatory elements.
+By eliminating the immediate barrier of expensive sequencing assays, AlphaGenomeR enables rapid **in silico** exploration of the regulatory genome, facilitating the discovery of enhancers, promoters, and splicing hubs in any biological context.
+
+---
+
+## 🎨 Multimodal Prediction Atlas
+
+The following results were generated using the core functions of `AlphaGenomeR`. Each panel represents a unique biological signal predicted simultaneously for a 1MB region on Chromosome 17.
+
+<p align="center">
+  <img src="man/figures/full_atlas.png" width="100%">
+</p>
 
 ---
 
 ## 🚀 Key Capabilities
 
-*   🛡️ **Multi-Modal Integration**: Query 11+ biological modalities (Expression, Chromatin, Splicing, 3D Architecture) in a single API call.
-*   🧠 **Tissue-Specific Logic**: Predict how sequences function across different biological contexts using UBERON and CL ontologies.
-*   ⚡ **High-Performance gRPC**: Efficient data streaming built on a robust `reticulate` bridge.
-*   📊 **Bioinformatics Native**: Standard R `matrix` and `data.frame` outputs compatible with `GenomicRanges`, `DESeq2`, and `Gviz`.
-
----
-
-## 🎨 Modality Atlas: Real Results
-
-The following tracks were generated using `AlphaGenomeR` core extractor functions for a 1MB region on Chromosome 17.
-
-<p align="center">
-  <img src="man/figures/modality_atlas.png" width="100%">
-</p>
-
-### 💎 Comparative Tissue Analysis
-Captured subtle regulatory differences across tissues. Below is the predicted RNA-seq signal for Lung vs. Liver.
-
-<p align="center">
-  <img src="man/figures/tissue_comparison.png" width="90%">
-</p>
-
-### 🧬 Integrated Signal Stack
-Synchronized view of chromatin accessibility and gene expression to identify active regulatory hubs.
-
-<p align="center">
-  <img src="man/figures/multimodal_stack.png" width="90%">
-</p>
+*   🛡️ **Unified Data Hub**: Access 11+ modalities (RNA-seq, ATAC, DNase, ChIP, Splicing, 3D Genome) in one query.
+*   🧠 **Tissue Intelligence**: Direct integration with **UBERON** and **CL** ontologies for context-aware predictions.
+*   ⚡ **gRPC Engine**: High-throughput data streaming powered by a robust `reticulate` bridge.
+*   📊 **R-Native Ecosystem**: Outputs are standard R `matrix` and `data.frame` objects, ready for `ggplot2`, `DESeq2`, and `GenomicRanges`.
 
 ---
 
 ## 🛠️ Installation
 
-### 1. System Requirements
+### Prerequisites
 AlphaGenomeR requires Python 3.10+ and the official SDK:
 ```bash
 pip install alphagenome
 ```
 
-### 2. R Package
+### R Package
 ```r
 if (!require("devtools")) install.packages("devtools")
 devtools::install_github("BDB-Genomics/AlphaGenomeR")
@@ -87,37 +73,41 @@ library(AlphaGenomeR)
 results <- alphagenome_query(
   access_token = "YOUR_API_KEY",
   genomic_region = "chr17:42560601-43609177",
-  ontology_terms = "UBERON:0002048",
-  requested_outputs = c("RNA_SEQ", "ATAC", "CAGE")
+  ontology_terms = "UBERON:0002048" # Lung
 )
 
-# 2. Extract and Plot using native R structures
-rna_data <- alphagenome_get_rna_seq(results)
-head(rna_data$values)
+# 2. Extract results from all available modalities
+rna    <- alphagenome_get_rna_seq(results)
+atac   <- alphagenome_get_atac(results)
+dnase  <- alphagenome_get_dnase(results)
+splice <- alphagenome_get_splice_sites(results)
+
+# 3. Explore the high-resolution signal
+head(rna$values)
 ```
 
 ---
 
 ## 📑 Supported Extractors
 
-| Modality | Function | Description |
+| Modality | Extractor Function | Description |
 | :--- | :--- | :--- |
-| **RNA-seq** | `alphagenome_get_rna_seq()` | Predicted Gene Expression levels |
-| **ATAC-seq** | `alphagenome_get_atac()` | Chromatin Accessibility signal |
-| **DNase-seq** | `alphagenome_get_dnase()` | Hypersensitivity peaks |
-| **CAGE** | `alphagenome_get_cage()` | Transcription Start Site (TSS) signal |
-| **ChIP-seq** | `alphagenome_get_chip_tf()` | Transcription Factor Binding sites |
-| **Histone** | `alphagenome_get_chip_histone()` | Histone Modification marks |
-| **3D Genome** | `alphagenome_get_contact_maps()` | Chromatin Contact maps |
-| **Splicing** | `alphagenome_get_splice_sites()` | Predicted Splice Sites |
-| **Splicing** | `alphagenome_get_splice_junctions()` | Predicted Junctions |
+| **Expression** | `alphagenome_get_rna_seq()` | Total and polyA+ RNA-seq signal |
+| **Expression** | `alphagenome_get_cage()` | Transcription Start Sites (TSS) |
+| **Chromatin** | `alphagenome_get_atac()` | ATAC-seq accessibility signal |
+| **Chromatin** | `alphagenome_get_dnase()` | DNase-I hypersensitivity peaks |
+| **Epigenome** | `alphagenome_get_chip_histone()` | H3K4me3, H3K27ac, etc. |
+| **Epigenome** | `alphagenome_get_chip_tf()` | CTCF and TF binding peaks |
+| **Splicing** | `alphagenome_get_splice_sites()` | Predicted 5'/3' splice sites |
+| **Splicing** | `alphagenome_get_splice_junctions()` | Splice junction intensity |
+| **3D Genome** | `alphagenome_get_contact_maps()` | Chromatin interaction heatmaps |
 
 ---
 
 ## 📜 Citation & License
 
-If you use AlphaGenomeR in your work, please cite the repository:
-> **Himanshu.** "AlphaGenomeR: R Interface to AlphaGenome API." GitHub (2026). https://github.com/BDB-Genomics/AlphaGenomeR
+If you use AlphaGenomeR in your work, please cite the project:
+> **Himanshu.** "AlphaGenomeR: High-Resolution R Interface for Functional Genomic Predictions." (2026). https://github.com/BDB-Genomics/AlphaGenomeR
 
 Licensed under **Apache License 2.0**. API usage is for **non-commercial research only**.
 
