@@ -1,0 +1,18 @@
+bibentry(
+  bibtype = "Manual",
+  title = "AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions",
+  author = person("Himanshu"),
+  year = "2026",
+  note = "R package version 0.99.0",
+  url = "https://github.com/BDB-Genomics/AlphaGenomeR"
+)
+
+bibentry(
+  bibtype = "Article",
+  title = "Predicting the regulatory code of DNA sequences with AlphaGenome",
+  author = as.person("DeepMind AlphaGenome Team"),
+  journal = "Nature",
+  year = "2026",
+  doi = "10.1038/s41586-026-XXXXX-X",
+  note = "Primary model reference for AlphaGenomeR users"
+)
