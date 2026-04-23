@@ -1,5 +1,5 @@
-<p align="center"><img width="900" height="452" alt="image" src="https://github.com/user-attachments/assets/6cfcde71-c013-487f-8970-0879924088a6" />
-
+<p align="center">
+  <img width="900" alt="AlphaGenomeR Banner" src="https://github.com/user-attachments/assets/6cfcde71-c013-487f-8970-0879924088a6" />
 </p>
 
 <p align="center">
@@ -8,40 +8,80 @@
 
 <p align="center">
   <a href="https://github.com/Bioconductor/Contributions/issues/4256">
-    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg" alt="Bioconductor Submission">
+    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg" />
   </a>
   <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg" alt="License">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg" />
   </a>
   <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
-    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white" alt="Documentation">
+    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white" />
   </a>
 </p>
 
 ---
 
-## 📜 License & Mandatory Citation Agreement
+<h2 align="center">🚀 Try in 60 Seconds</h2>
 
-**AlphaGenomeR** is licensed under **Apache License 2.0**. 
+<pre><code class="language-r">
+install.packages("devtools")
+devtools::install_github("BDB-Genomics/AlphaGenomeR")
 
-**Mandatory Requirement:** If you use this package in your research, you are required to cite both the package and the underlying model:
+library(AlphaGenomeR)
 
-1.  **AlphaGenomeR**: Himanshu (2026). "AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions." R package version 0.99.0, https://github.com/BDB-Genomics/AlphaGenomeR.
-2.  **AlphaGenome Model**: DeepMind AlphaGenome Team. "Predicting the regulatory code of DNA sequences with AlphaGenome." *Nature* (2026).
+results <- alphagenome_query(
+  access_token = "YOUR_API_KEY",
+  genomic_region = "chr17:42560601-43609177",
+  ontology_terms = "UBERON:0002048"
+)
 
-Run `citation("AlphaGenomeR")` in R for the formal BibTeX references.
+alphagenome_get_rna_seq(results)
+</code></pre>
+
+<p align="center">
+From raw genomic region → multimodal predictions in seconds.
+</p>
 
 ---
 
-## Overview
+<h2>Overview</h2>
 
-AlphaGenomeR provides a production-grade R interface to the AlphaGenome API. It enables researchers to retrieve multimodal functional genomic predictions at single-base resolution across 1MB genomic intervals. By bridging the official gRPC-based Python SDK, the package integrates deep learning predictions directly into Bioconductor-native workflows.
+<p>
+<b>AlphaGenomeR</b> brings <b>state-of-the-art AlphaGenome predictions into R</b>, enabling multimodal functional genomic analysis at single-base resolution across large genomic regions.
+</p>
+
+<p>
+It bridges the official gRPC-based Python SDK with Bioconductor-native workflows, making advanced deep learning predictions directly accessible to R users.
+</p>
 
 ---
 
-## Core Functions and Biological Modalities
+<h2>💡 Why AlphaGenomeR?</h2>
 
-AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figure below demonstrates a **Multimodal Genomic Atlas** generated for the *MYC* locus using verified real-world predictions from the AlphaGenome API.
+<ul>
+  <li>🧬 Direct access to AlphaGenome predictions in R</li>
+  <li>⚡ No Python workflow management required</li>
+  <li>🔬 Single-base resolution across 11+ modalities</li>
+  <li>📊 Native Bioconductor compatibility</li>
+  <li>🚀 Designed for real research workflows</li>
+</ul>
+
+---
+
+<h2>📌 Status</h2>
+
+<ul>
+  <li>🚧 Bioconductor submission (v0.99.0)</li>
+  <li>🧪 Tested on real AlphaGenome API outputs</li>
+  <li>🔬 Actively developed</li>
+</ul>
+
+---
+
+<h2>Core Functions and Biological Modalities</h2>
+
+<p>
+AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figure below demonstrates a <b>Multimodal Genomic Atlas</b> generated for the <i>MYC</i> locus.
+</p>
 
 <p align="center">
   <img src="man/figures/modality_atlas.png" width="1000">
@@ -49,40 +89,44 @@ AlphaGenomeR provides specialized extractors for 11 distinct biological modaliti
 
 ---
 
-### High-Resolution Modality Gallery
-The following plots demonstrate real high-resolution predictions retrieved for specific biological tracks at the *MYC* locus (chr8:127.7Mb). 
+<h2>🧪 Typical Workflow</h2>
 
-> **Note:** Tracks for ChIP-TF, PRO-cap, and Contact Maps are supported by the package but are not visualized below as they contain no significant predicted signal in this specific benchmark region.
+<ol>
+  <li>Query a genomic region</li>
+  <li>Extract modality (RNA-seq, ATAC, DNase, etc.)</li>
+  <li>Convert to R-native structures</li>
+  <li>Visualize with ggplot2</li>
+  <li>Integrate with downstream analysis</li>
+</ol>
 
-### 1. RNA-seq: Gene Expression Profiling
-The `alphagenome_get_rna_seq()` function extracts predicted expression levels for polyA+ and total RNA tracks.
+<p>
+AlphaGenomeR fits directly into existing Bioconductor pipelines.
+</p>
 
-![RNA-seq Result](man/figures/gallery/res_rna.png)
+---
 
-### 2. ATAC-seq: Chromatin Accessibility
-The `alphagenome_get_atac()` function retrieves predicted chromatin accessibility, identifying regions of open chromatin with base-pair precision.
+<h2>High-Resolution Modality Gallery</h2>
 
-![ATAC-seq Result](man/figures/gallery/res_atac.png)
+<p>
+Real predictions retrieved for the <i>MYC</i> locus (chr8:127.7Mb).
+</p>
 
-### 3. DNase-seq: Regulatory Element Mapping
-The `alphagenome_get_dnase()` function extracts hypersensitivity signals, which are highly correlated with active enhancers and promoters.
+<h3>RNA-seq</h3>
+<img src="man/figures/gallery/res_rna.png">
 
-![DNase-seq Result](man/figures/gallery/res_dnase.png)
+<h3>ATAC-seq</h3>
+<img src="man/figures/gallery/res_atac.png">
 
-### 4. CAGE: Transcription Start Site Discovery
-The `alphagenome_get_cage()` function identifies precise transcription start sites by predicting Cap Analysis Gene Expression signal.
+<h3>DNase-seq</h3>
+<img src="man/figures/gallery/res_dnase.png">
 
-![CAGE Result](man/figures/gallery/res_cage.png)
+<h3>CAGE</h3>
+<img src="man/figures/gallery/res_cage.png">
 
-### 5. Histone Modifications: Epigenetic Landscape
-The `alphagenome_get_chip_histone()` function retrieves signals for various histone marks (e.g., H3K4me3, H3K27ac) at 128bp binned resolution.
+<h3>Histone Modifications</h3>
+<img src="man/figures/gallery/res_histone.png">
 
-![Histone Result](man/figures/gallery/res_histone.png)
-
-### 6. Splicing: Sites and Usage
-AlphaGenomeR provides high-resolution predictions for splicing patterns, including site probabilities and isoform usage.
-*   `alphagenome_get_splice_sites()`
-*   `alphagenome_get_splice_usage()`
+<h3>Splicing</h3>
 
 <p align="center">
   <img src="man/figures/gallery/res_splice_sites.png" width="45%">
@@ -91,47 +135,72 @@ AlphaGenomeR provides high-resolution predictions for splicing patterns, includi
 
 ---
 
-## Technical Specifications
+<h2>Technical Specifications</h2>
 
-*   **Resolution**: Single-base resolution for most tracks; 128bp bins for epigenetic marks.
-*   **Architecture**: Optimized gRPC data streaming via `reticulate`.
-*   **Context**: Native support for **UBERON** and **CL** tissue/cell-type ontologies.
-*   **Compatibility**: Direct integration with `GenomicRanges`, `DESeq2`, and `ggplot2`.
+<ul>
+  <li><b>Resolution:</b> Single-base (most tracks), 128bp (epigenetic marks)</li>
+  <li><b>Architecture:</b> gRPC streaming via reticulate</li>
+  <li><b>Ontology:</b> UBERON & CL support</li>
+  <li><b>Integration:</b> GenomicRanges, DESeq2, ggplot2</li>
+</ul>
 
 ---
 
-## Installation
+<h2>Installation</h2>
 
-### Prerequisites
-AlphaGenomeR requires Python (>= 3.10) and the official `alphagenome` Python package:
-```bash
+<h3>Prerequisites</h3>
+
+<pre><code>
 pip install alphagenome
-```
+</code></pre>
 
-### R Package
-```r
+<h3>R Package</h3>
+
+<pre><code class="language-r">
 if (!require("devtools")) install.packages("devtools")
 devtools::install_github("BDB-Genomics/AlphaGenomeR")
-```
+</code></pre>
 
 ---
 
-## Quick Start
+<h2>Quick Start</h2>
 
-```r
+<pre><code class="language-r">
 library(AlphaGenomeR)
 
-# 1. Query a 1MB genomic region for Lung tissue
 results <- alphagenome_query(
   access_token = "YOUR_API_KEY",
   genomic_region = "chr17:42560601-43609177",
   ontology_terms = "UBERON:0002048"
 )
 
-# 2. Extract and visualize RNA-seq predictions
 rna_data <- alphagenome_get_rna_seq(results)
 head(rna_data$values)
-```
+</code></pre>
 
 ---
-**Developed by Himanshu**
+
+<h2>📜 Citation</h2>
+
+<p>If you use AlphaGenomeR, please cite:</p>
+
+<ol>
+  <li><b>AlphaGenomeR</b> (R package)</li>
+  <li><b>AlphaGenome Model</b> (<i>Nature</i>, 2026)</li>
+</ol>
+
+<p>Run <code>citation("AlphaGenomeR")</code> for BibTeX.</p>
+
+---
+
+<h2>🚀 Get Started</h2>
+
+<p>
+AlphaGenomeR brings cutting-edge genomic prediction models directly into your R workflow.
+</p>
+
+<p>
+👉 Try it on your favorite locus.<br>
+👉 Explore signals you couldn’t access before.<br>
+👉 Build something new.
+</p>
