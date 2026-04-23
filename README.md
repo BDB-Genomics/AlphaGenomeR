@@ -1,4 +1,4 @@
-# <p align="center"><img src="man/figures/logo.png" width="400"></p>
+# <p align="center"><img src="home/Downloads/logo.png" width="400"></p>
 
 <p align="center">
   <b>High-Resolution R Interface for Functional Genomic Predictions</b>
