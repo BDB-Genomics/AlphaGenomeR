@@ -1,26 +1,34 @@
+<!-- HERO -->
 <p align="center">
-  <img width="900" alt="AlphaGenomeR Banner" src="https://github.com/user-attachments/assets/6cfcde71-c013-487f-8970-0879924088a6" />
+  <img src="https://github.com/user-attachments/assets/6cfcde71-c013-487f-8970-0879924088a6" width="900"/>
 </p>
 
+<h1 align="center">AlphaGenomeR</h1>
+
 <p align="center">
-  <b>High-Resolution R Interface for Functional Genomic Predictions</b>
+  <b>High-Resolution Functional Genomic Predictions — Directly in R</b>
 </p>
 
 <p align="center">
   <a href="https://github.com/Bioconductor/Contributions/issues/4256">
-    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg" />
+    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg"/>
   </a>
   <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg" />
+    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg"/>
   </a>
   <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
-    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white" />
+    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white"/>
   </a>
+</p>
+
+<p align="center">
+  <sub>Bridging state-of-the-art deep learning genomics with Bioconductor-native workflows</sub>
 </p>
 
 ---
 
-<h2 align="center">🚀 Try in 60 Seconds</h2>
+<!-- QUICK START -->
+<h2 align="center">⚡ Try in 60 Seconds</h2>
 
 <pre><code class="language-r">
 install.packages("devtools")
@@ -37,79 +45,88 @@ results <- alphagenome_query(
 alphagenome_get_rna_seq(results)
 </code></pre>
 
-<p align="center">
-From raw genomic region → multimodal predictions in seconds.
-</p>
+<p align="center"><i>From genomic coordinates → multimodal predictions in seconds.</i></p>
 
 ---
 
-<h2>Overview</h2>
-
-<p>
-<b>AlphaGenomeR</b> brings <b>state-of-the-art AlphaGenome predictions into R</b>, enabling multimodal functional genomic analysis at single-base resolution across large genomic regions.
-</p>
-
-<p>
-It bridges the official gRPC-based Python SDK with Bioconductor-native workflows, making advanced deep learning predictions directly accessible to R users.
-</p>
-
----
-
+<!-- VALUE -->
 <h2>💡 Why AlphaGenomeR?</h2>
 
-<ul>
-  <li>🧬 Direct access to AlphaGenome predictions in R</li>
-  <li>⚡ No Python workflow management required</li>
-  <li>🔬 Single-base resolution across 11+ modalities</li>
-  <li>📊 Native Bioconductor compatibility</li>
-  <li>🚀 Designed for real research workflows</li>
-</ul>
+<table>
+<tr>
+<td>🧬</td>
+<td><b>Direct AlphaGenome Access</b><br>Run cutting-edge genomic models from R</td>
+</tr>
+<tr>
+<td>⚡</td>
+<td><b>No Python Overhead</b><br>Seamless integration via reticulate</td>
+</tr>
+<tr>
+<td>🔬</td>
+<td><b>Single-Base Resolution</b><br>High-fidelity predictions across modalities</td>
+</tr>
+<tr>
+<td>📊</td>
+<td><b>Bioconductor Native</b><br>Works with GenomicRanges, DESeq2, ggplot2</td>
+</tr>
+<tr>
+<td>🚀</td>
+<td><b>Research-Ready</b><br>Designed for real-world genomic workflows</td>
+</tr>
+</table>
 
 ---
 
-<h2>📌 Status</h2>
+<!-- STATUS -->
+<h2>📌 Project Status</h2>
 
 <ul>
   <li>🚧 Bioconductor submission (v0.99.0)</li>
-  <li>🧪 Tested on real AlphaGenome API outputs</li>
+  <li>🧪 Validated on real AlphaGenome API outputs</li>
   <li>🔬 Actively developed</li>
 </ul>
 
 ---
 
-<h2>Core Functions and Biological Modalities</h2>
+<!-- OVERVIEW -->
+<h2>Overview</h2>
 
 <p>
-AlphaGenomeR provides specialized extractors for 11 distinct biological modalities. The figure below demonstrates a <b>Multimodal Genomic Atlas</b> generated for the <i>MYC</i> locus.
+<b>AlphaGenomeR</b> enables high-resolution functional genomic predictions across large genomic regions using the AlphaGenome model.
 </p>
+
+<p>
+It bridges the official gRPC-based Python SDK into R, allowing seamless integration with Bioconductor pipelines while maintaining performance and reproducibility.
+</p>
+
+---
+
+<!-- WORKFLOW -->
+<h2>🧪 Typical Workflow</h2>
+
+<ol>
+  <li>Query genomic region</li>
+  <li>Retrieve predictions (RNA, ATAC, DNase, etc.)</li>
+  <li>Convert to R-native structures</li>
+  <li>Visualize signals</li>
+  <li>Integrate into downstream analysis</li>
+</ol>
+
+---
+
+<!-- ATLAS -->
+<h2>📊 Multimodal Genomic Atlas</h2>
 
 <p align="center">
   <img src="man/figures/modality_atlas.png" width="1000">
 </p>
 
----
-
-<h2>🧪 Typical Workflow</h2>
-
-<ol>
-  <li>Query a genomic region</li>
-  <li>Extract modality (RNA-seq, ATAC, DNase, etc.)</li>
-  <li>Convert to R-native structures</li>
-  <li>Visualize with ggplot2</li>
-  <li>Integrate with downstream analysis</li>
-</ol>
-
-<p>
-AlphaGenomeR fits directly into existing Bioconductor pipelines.
-</p>
+<p align="center"><i>Example: MYC locus multimodal prediction landscape</i></p>
 
 ---
 
-<h2>High-Resolution Modality Gallery</h2>
-
-<p>
-Real predictions retrieved for the <i>MYC</i> locus (chr8:127.7Mb).
-</p>
+<!-- GALLERY -->
+<h2>🔬 Modality Gallery</h2>
 
 <h3>RNA-seq</h3>
 <img src="man/figures/gallery/res_rna.png">
@@ -135,72 +152,51 @@ Real predictions retrieved for the <i>MYC</i> locus (chr8:127.7Mb).
 
 ---
 
-<h2>Technical Specifications</h2>
+<!-- TECH -->
+<h2>⚙️ Technical Specifications</h2>
 
 <ul>
-  <li><b>Resolution:</b> Single-base (most tracks), 128bp (epigenetic marks)</li>
-  <li><b>Architecture:</b> gRPC streaming via reticulate</li>
-  <li><b>Ontology:</b> UBERON & CL support</li>
-  <li><b>Integration:</b> GenomicRanges, DESeq2, ggplot2</li>
+  <li><b>Resolution:</b> Single-base (most tracks), 128bp bins</li>
+  <li><b>Backend:</b> gRPC streaming via reticulate</li>
+  <li><b>Ontology:</b> UBERON & CL integration</li>
+  <li><b>Compatible with:</b> GenomicRanges, DESeq2, ggplot2</li>
 </ul>
 
 ---
 
-<h2>Installation</h2>
+<!-- INSTALL -->
+<h2>📦 Installation</h2>
 
 <h3>Prerequisites</h3>
 
-<pre><code>
-pip install alphagenome
-</code></pre>
+<pre><code>pip install alphagenome</code></pre>
 
-<h3>R Package</h3>
+<h3>Install R Package</h3>
 
 <pre><code class="language-r">
-if (!require("devtools")) install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("BDB-Genomics/AlphaGenomeR")
 </code></pre>
 
 ---
 
-<h2>Quick Start</h2>
-
-<pre><code class="language-r">
-library(AlphaGenomeR)
-
-results <- alphagenome_query(
-  access_token = "YOUR_API_KEY",
-  genomic_region = "chr17:42560601-43609177",
-  ontology_terms = "UBERON:0002048"
-)
-
-rna_data <- alphagenome_get_rna_seq(results)
-head(rna_data$values)
-</code></pre>
-
----
-
+<!-- CITATION -->
 <h2>📜 Citation</h2>
 
 <p>If you use AlphaGenomeR, please cite:</p>
 
-<ol>
+<ul>
   <li><b>AlphaGenomeR</b> (R package)</li>
-  <li><b>AlphaGenome Model</b> (<i>Nature</i>, 2026)</li>
-</ol>
+  <li><b>AlphaGenome Model</b> (Nature, 2026)</li>
+</ul>
 
-<p>Run <code>citation("AlphaGenomeR")</code> for BibTeX.</p>
+<p><code>citation("AlphaGenomeR")</code></p>
 
 ---
 
-<h2>🚀 Get Started</h2>
+<!-- CTA -->
+<h2 align="center">🚀 Start Exploring</h2>
 
-<p>
-AlphaGenomeR brings cutting-edge genomic prediction models directly into your R workflow.
-</p>
-
-<p>
-👉 Try it on your favorite locus.<br>
-👉 Explore signals you couldn’t access before.<br>
-👉 Build something new.
+<p align="center">
+  Discover functional genomic signals with unprecedented resolution — directly in R.
 </p>
