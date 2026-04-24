@@ -1,2 +1,2 @@
-# Load the package
+# Load the testthat package
 library(testthat)
