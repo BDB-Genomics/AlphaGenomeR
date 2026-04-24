@@ -1,6 +1,6 @@
 ---
 title: "Introduction to AlphaGenomeR"
-author: "Himanshu"
+author: "Himanshu Bhandary"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
