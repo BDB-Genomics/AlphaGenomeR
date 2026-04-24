@@ -22,6 +22,10 @@
 </p>
 
 <p align="center">
+  <img src="assets/architecture_diagram.svg" alt="AlphaGenomeR Architecture" width="860" />
+</p>
+
+<p align="center">
   <sub>Bridging state-of-the-art deep learning genomics with Bioconductor-native workflows</sub>
 </p>
 
@@ -50,30 +54,11 @@ alphagenome_get_rna_seq(results)
 ---
 
 <!-- VALUE -->
-<h2>💡 Why AlphaGenomeR?</h2>
+<h2>💡 Design & Features</h2>
 
-<table>
-<tr>
-<td>🧬</td>
-<td><b>Direct AlphaGenome Access</b><br>Run cutting-edge genomic models from R</td>
-</tr>
-<tr>
-<td>⚡</td>
-<td><b>No Python Overhead</b><br>Seamless integration via reticulate</td>
-</tr>
-<tr>
-<td>🔬</td>
-<td><b>Single-Base Resolution</b><br>High-fidelity predictions across modalities</td>
-</tr>
-<tr>
-<td>📊</td>
-<td><b>Bioconductor Native</b><br>Works with GenomicRanges, DESeq2, ggplot2</td>
-</tr>
-<tr>
-<td>🚀</td>
-<td><b>Research-Ready</b><br>Designed for real-world genomic workflows</td>
-</tr>
-</table>
+<p align="center">
+  <img src="assets/readme_animation.svg" alt="AlphaGenomeR Features" width="820" />
+</p>
 
 ---
 

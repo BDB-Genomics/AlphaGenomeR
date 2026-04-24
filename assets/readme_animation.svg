@@ -1,0 +1,62 @@
+<svg width="820" height="510" viewBox="0 0 820 510" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="white"/>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.6s" begin="0.2s" fill="freeze"/>
+  <text x="410" y="50" text-anchor="middle" font-family="system-ui,sans-serif" font-size="26" font-weight="800" fill="#1a1a2e">AlphaGenomeR Design Features</text>
+  <text x="410" y="74" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#666">Bridging high-performance deep learning genomic inference with Bioconductor</text>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="1.0999999999999999s" fill="freeze"/>
+  <line x1="40" y1="100" x2="780" y2="100" stroke="#ddd" stroke-width="1"/>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="1.5999999999999999s" fill="freeze"/>
+  <rect x="40" y="130" width="220" height="110" rx="10" fill="#FAECE7" stroke="#993C1D" stroke-width="1.2"/>
+  <text x="150" y="154" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#5C200C">1. Blazing Fast API</text>
+  <text x="54" y="174" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Direct query of AlphaGenome.</text>
+  <text x="54" y="190" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Streaming gRPC backend runs</text>
+  <text x="54" y="206" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">via reticulate. No complex</text>
+  <text x="54" y="222" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Python setup needed for the</text>
+  <text x="54" y="238" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">end user. Secure &amp; encrypted.</text>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2.4s" fill="freeze"/>
+  <rect x="280" y="130" width="220" height="110" rx="10" fill="#FAECE7" stroke="#993C1D" stroke-width="1.2"/>
+  <text x="390" y="154" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#5C200C">2. High-Res Multi-omics</text>
+  <text x="294" y="174" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Extract RNA-seq, ATAC-seq,</text>
+  <text x="294" y="190" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">DNase-seq, CAGE, Histone marks</text>
+  <text x="294" y="206" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">and Splicing usage at single-</text>
+  <text x="294" y="222" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">base or 128bp bin resolution</text>
+  <text x="294" y="238" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">for any queried region.</text>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="3.2s" fill="freeze"/>
+  <rect x="520" y="130" width="220" height="110" rx="10" fill="#FAECE7" stroke="#993C1D" stroke-width="1.2"/>
+  <text x="630" y="154" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#5C200C">3. Bioconductor Native</text>
+  <text x="534" y="174" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Returns standardized R classes.</text>
+  <text x="534" y="190" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Fully compatible with</text>
+  <text x="534" y="206" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">GenomicRanges, DESeq2,</text>
+  <text x="534" y="222" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Gviz, and ggplot2.</text>
+  <text x="534" y="238" font-family="system-ui,sans-serif" font-size="11" fill="#993C1D">Ready for downstream scripts.</text>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="4.0s" fill="freeze"/>
+  <line x1="40" y1="280" x2="780" y2="280" stroke="#ddd" stroke-width="1"/>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="4.5s" fill="freeze"/>
+  <text x="40" y="310" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#1a1a2e">Installation</text>
+  <text x="40" y="335" font-family="SFMono-Regular,Consolas,monospace" font-size="11" fill="#993C1D"># 1. Install Python dependency</text>
+  <text x="40" y="350" font-family="SFMono-Regular,Consolas,monospace" font-size="11" fill="#24292f">pip install alphagenome</text>
+  <text x="40" y="370" font-family="SFMono-Regular,Consolas,monospace" font-size="11" fill="#993C1D"># 2. Install R Package via devtools</text>
+  <text x="40" y="385" font-family="SFMono-Regular,Consolas,monospace" font-size="11" fill="#24292f">devtools::install_github("BDB-Genomics/AlphaGenomeR")</text>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="5.2s" fill="freeze"/>
+  <line x1="40" y1="430" x2="780" y2="430" stroke="#ddd" stroke-width="1"/>
+</g>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="5.7s" fill="freeze"/>
+  <text x="410" y="480" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#aaa">BDB-Genomics · AlphaGenomeR · Submitted to Bioconductor</text>
+</g>
+</svg>
