@@ -2,11 +2,13 @@
 title: "Introduction to AlphaGenomeR"
 author: "Himanshu Bhandary"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{Introduction to AlphaGenomeR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignettePackage{AlphaGenomeR}
 ---
 
 ```{r setup, include = FALSE}

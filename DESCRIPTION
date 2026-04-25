@@ -2,7 +2,7 @@ Package: AlphaGenomeR
 Title: R Interface to Google DeepMind's AlphaGenome API
 Version: 0.99.0
 Authors@R: 
-    person("Himanshu", role = c("aut", "cre"),
+    person("Himanshu", "Bhandary", role = c("aut", "cre"),
            email = "2032ushimanshu@gmail.com",
            comment = c(ORCID = "0000-0002-3110-3882"))
 Description: Provides an R interface to the AlphaGenome API by Google DeepMind.
@@ -19,12 +19,12 @@ Depends:
     R (>= 4.1.0)
 Imports: 
     reticulate,
-    glue,
-    methods
+    glue
 Suggests: 
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    BiocStyle
 VignetteBuilder: knitr
 biocViews: 
     Software, 

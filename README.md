@@ -156,12 +156,22 @@ It bridges the official gRPC-based Python SDK into R, allowing seamless integrat
 
 <pre><code>pip install alphagenome</code></pre>
 
-<h3>Install R Package</h3>
+<h3>R Package</h3>
+Once the package is accepted into Bioconductor, install it using:
+```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
 
-<pre><code class="language-r">
-install.packages("devtools")
-devtools::install_github("BDB-Genomics/AlphaGenomeR")
-</code></pre>
+BiocManager::install("AlphaGenomeR")
+```
+
+For the development version from GitHub:
+```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("BDB-Genomics/AlphaGenomeR")
+```
 
 ---
 
@@ -179,9 +189,4 @@ devtools::install_github("BDB-Genomics/AlphaGenomeR")
 
 ---
 
-<!-- CTA -->
-<h2 align="center">🚀 Start Exploring</h2>
-
-<p align="center">
-  Discover functional genomic signals with unprecedented resolution — directly in R.
-</p>
+**Developed by Himanshu Bhandary**
