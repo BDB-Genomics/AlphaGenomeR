@@ -1,1 +1,2 @@
 - Scanned R/ directory for optimization possibilities. Result: Code is clean and idiomatic; eager conversion is appropriate for current architecture.
+- Verified: SSH commit signing active.
