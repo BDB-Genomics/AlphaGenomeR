@@ -19,6 +19,9 @@
   <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
     <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white"/>
   </a>
+  <a href="https://doi.org/10.5281/zenodo.19772913">
+    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19772913.svg" alt="DOI">
+  </a>
 </p>
 
 <p align="center">
@@ -181,7 +184,7 @@ BiocManager::install("BDB-Genomics/AlphaGenomeR")
 <p>If you use AlphaGenomeR, please cite:</p>
 
 <ul>
-  <li><b>AlphaGenomeR</b> (R package)</li>
+  <li><b>AlphaGenomeR</b> (R package) — <a href="https://doi.org/10.5281/zenodo.19772913">DOI: 10.5281/zenodo.19772913</a></li>
   <li><b>AlphaGenome Model</b> (Nature, 2026)</li>
 </ul>
 
