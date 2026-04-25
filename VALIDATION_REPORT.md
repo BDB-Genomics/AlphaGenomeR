@@ -1,4 +1,4 @@
-# AlphaGenomeR v1.0 Final Validation Report
+# AlphaGenomeR v0.99.0 Final Validation Report
 
 **Status:** ✅ **PASSED (Stress Test Successful)**
 **Date:** April 26, 2026
@@ -33,4 +33,3 @@ The repository meets modern engineering and security standards:
 *   **Data Integrity:** Verified quantitative output against expected API response ranges.
 
 ---
-
