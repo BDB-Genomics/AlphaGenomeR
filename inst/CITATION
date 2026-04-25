@@ -4,7 +4,8 @@ bibentry(
   author = person("Himanshu"),
   year = "2026",
   note = "R package version 0.99.0",
-  url = "https://github.com/BDB-Genomics/AlphaGenomeR"
+  url = "https://github.com/BDB-Genomics/AlphaGenomeR",
+  doi = "10.5281/zenodo.19772913"
 )
 
 bibentry(
