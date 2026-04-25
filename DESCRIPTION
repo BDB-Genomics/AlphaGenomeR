@@ -4,7 +4,7 @@ Version: 0.99.0
 Authors@R: 
     person("Himanshu", "Bhandary", role = c("aut", "cre"),
            email = "2032ushimanshu@gmail.com",
-           comment = c(ORCID = "0000-0002-3110-3882"))
+           comment = c(ORCID = "0009-0002-9859-3934"))
 Description: Provides an R interface to the AlphaGenome API by Google DeepMind.
     AlphaGenome offers multimodal predictions including gene expression,
     splicing patterns, chromatin features, and contact maps for genomic regions.
