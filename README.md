@@ -1,6 +1,6 @@
 <!-- HERO -->
 <p align="center">
-  <img src="<img width="909" height="369" alt="image" src="https://github.com/user-attachments/assets/c23924e2-bfef-4f3b-9d8c-cf596d51ad84"/>
+  <img width="909" height="369" alt="image" src="https://github.com/user-attachments/assets/c23924e2-bfef-4f3b-9d8c-cf596d51ad84"/>
 </p>
 
 <h1 align="center">AlphaGenomeR</h1>
