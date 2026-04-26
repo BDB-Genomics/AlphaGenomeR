@@ -1,2 +1,3 @@
 ^COMMIT_LOG[.]md$
 ^VALIDATION_REPORT[.]md$
+^inst/scripts/AlphaGenomeR_Demo[.]ipynb$
