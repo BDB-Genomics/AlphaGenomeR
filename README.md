@@ -146,14 +146,6 @@ atac <- alphagenome_get_atac(results)
 4. Extract modality-specific data with the helper functions.
 5. Use the returned matrices and metadata in downstream R analyses.
 
-## Multimodal Atlas
-
-<p align="center">
-  <img src="man/figures/modality_atlas.png" width="1000">
-</p>
-
-<p align="center"><i>Example: multimodal prediction landscape across a genomic locus</i></p>
-
 ## Example Outputs
 
 <p align="center">
