@@ -1,8 +1,7 @@
 Package: AlphaGenomeR
 Title: R Interface to Google DeepMind's AlphaGenome API
 Version: 0.99.0
-Authors@R: 
-    person("Himanshu", "Bhandary", role = c("aut", "cre"),
+Authors@R: person("Himanshu", "Bhandary", role = c("aut", "cre"),
            email = "2032ushimanshu@gmail.com",
            comment = c(ORCID = "0009-0002-9859-3934"))
 Description: Provides an R interface to the AlphaGenome API by Google DeepMind.
