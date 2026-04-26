@@ -25,4 +25,5 @@ Suggests:
     rmarkdown,
     BiocStyle
 VignetteBuilder: knitr
-biocViews: Software, GenomicAnnotation, FunctionalGenomics, Sequencing, ImmunoOncology
+biocViews: Software, GenomicAnnotation, FunctionalGenomics, Sequencing, ImmunoOncolog
+y
