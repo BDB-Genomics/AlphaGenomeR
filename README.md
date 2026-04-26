@@ -1,5 +1,10 @@
 <!-- HERO -->
 <p align="center">
+  <a href="https://doi.org/10.5281/zenodo.19797898">
+    <img src="https://zenodo.org/badge/doi/10.5281/zenodo.19797898.svg" alt="DOI">
+  </a>
+</p>
+<p align="center">
   <img width="909" height="369" alt="image" src="https://github.com/user-attachments/assets/c23924e2-bfef-4f3b-9d8c-cf596d51ad84"/>
 </p>
 
@@ -159,7 +164,7 @@ atac <- alphagenome_get_atac(results)
 
 If you use `AlphaGenomeR`, please cite:
 
-- `AlphaGenomeR` (R package): <https://doi.org/10.5281/zenodo.19774275>
+- `AlphaGenomeR` (R package): <https://doi.org/10.5281/zenodo.19797898>
 - AlphaGenome model publication
 
 You can also run:
