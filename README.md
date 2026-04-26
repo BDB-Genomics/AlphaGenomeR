@@ -154,29 +154,14 @@ atac <- alphagenome_get_atac(results)
 
 <p align="center"><i>Example: multimodal prediction landscape across a genomic locus</i></p>
 
-## Modality Gallery
-
-### RNA-seq
-<img src="man/figures/gallery/res_rna.png">
-
-### ATAC-seq
-<img src="man/figures/gallery/res_atac.png">
-
-### DNase-seq
-<img src="man/figures/gallery/res_dnase.png">
-
-### CAGE
-<img src="man/figures/gallery/res_cage.png">
-
-### Histone Modifications
-<img src="man/figures/gallery/res_histone.png">
-
-### Splicing
+## Example Outputs
 
 <p align="center">
-  <img src="man/figures/gallery/res_splice_sites.png" width="45%">
-  <img src="man/figures/gallery/res_splice_usage.png" width="45%">
+  <img src="man/figures/gallery/res_rna.png" width="45%">
+  <img src="man/figures/gallery/res_atac.png" width="45%">
 </p>
+
+<p align="center"><i>Representative RNA-seq and ATAC-seq outputs from AlphaGenomeR.</i></p>
 
 ## Citation
 
