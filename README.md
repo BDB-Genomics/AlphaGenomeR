@@ -6,7 +6,7 @@
 <h1 align="center">AlphaGenomeR</h1>
 
 <p align="center">
-  <b>High-Resolution Functional Genomic Predictions — Directly in R</b>
+  <b>High-resolution functional genomic predictions from AlphaGenome, directly in R</b>
 </p>
 
 <p align="center">
@@ -29,166 +29,167 @@
 </p>
 
 <p align="center">
-  <sub>Bridging state-of-the-art deep learning genomics with Bioconductor-native workflows</sub>
+  <sub>Bridging the official AlphaGenome Python SDK into Bioconductor-friendly R workflows</sub>
 </p>
 
----
+## Overview
 
-<!-- QUICK START -->
-<h2 align="center">⚡ Try in 60 Seconds</h2>
+`AlphaGenomeR` provides an R interface to Google DeepMind's AlphaGenome API.
+It uses `reticulate` to call the official Python client and returns R-friendly
+objects for downstream analysis.
 
-<pre><code class="language-r">
-install.packages("devtools")
-devtools::install_github("BDB-Genomics/AlphaGenomeR")
+Typical uses:
+
+- query a 1 Mb genomic interval
+- retrieve RNA-seq, ATAC-seq, DNase-seq, CAGE, TF/histone, splicing, and contact predictions
+- convert results into matrices and metadata tables in R
+- integrate predictions into Bioconductor workflows
+
+## Project Status
+
+- Bioconductor submission: `0.99.0`
+- Validated on real AlphaGenome API outputs
+- Actively developed
+
+## Installation
+
+### 1. Create a dedicated Python environment
+
+`AlphaGenomeR` depends on the Python package `alphagenome`. Use the included
+Conda environment file to avoid dependency conflicts with your base environment.
+
+```bash
+conda env create -f dev/alphagenome.yaml
+conda activate alphagenomer
+```
+
+### 2. Install the R package
+
+For the development version from GitHub:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+
+BiocManager::install("BDB-Genomics/AlphaGenomeR")
+```
+
+Once accepted into Bioconductor:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+
+BiocManager::install("AlphaGenomeR")
+```
+
+### 3. Point `reticulate` to the environment
+
+Set `RETICULATE_PYTHON` before loading the package.
+
+```r
+Sys.setenv(
+    RETICULATE_PYTHON = "/path/to/miniconda3/envs/alphagenomer/bin/python"
+)
+
+library(AlphaGenomeR)
+```
+
+## Quick Start
+
+```r
+Sys.setenv(
+    RETICULATE_PYTHON = "/path/to/miniconda3/envs/alphagenomer/bin/python"
+)
 
 library(AlphaGenomeR)
 
 results <- alphagenome_query(
-  access_token = "YOUR_API_KEY",
-  genomic_region = "chr17:42560601-43609177",
-  ontology_terms = "UBERON:0002048"
+    access_token = "YOUR_API_KEY",
+    genomic_region = "chr17:42560601-43609177",
+    ontology_terms = "UBERON:0002048",
+    requested_outputs = c("RNA_SEQ", "ATAC")
 )
 
-alphagenome_get_rna_seq(results)
-</code></pre>
+rna <- alphagenome_get_rna_seq(results)
+atac <- alphagenome_get_atac(results)
+```
 
-<p align="center"><i>From genomic coordinates → multimodal predictions in seconds.</i></p>
+## Requirements
 
----
+- Python `>= 3.10`
+- `alphagenome` Python package `>= 0.6.1`
+- valid AlphaGenome API key
+- internet access for live API queries
 
-<!-- VALUE -->
-<h2>💡 Design & Features</h2>
+## Supported Outputs
 
-<p align="center">
-  <img src="assets/readme_animation.svg" alt="AlphaGenomeR Features" width="820" />
-</p>
+- `alphagenome_get_rna_seq()`
+- `alphagenome_get_atac()`
+- `alphagenome_get_cage()`
+- `alphagenome_get_dnase()`
+- `alphagenome_get_chip_tf()`
+- `alphagenome_get_chip_histone()`
+- `alphagenome_get_splice_sites()`
+- `alphagenome_get_splice_junctions()`
+- `alphagenome_get_splice_usage()`
+- `alphagenome_get_procap()`
+- `alphagenome_get_contact_maps()`
 
----
+## Typical Workflow
 
-<!-- STATUS -->
-<h2>📌 Project Status</h2>
+1. Create or activate the dedicated Python environment.
+2. Set `RETICULATE_PYTHON`.
+3. Query a genomic region with `alphagenome_query()`.
+4. Extract modality-specific data with the helper functions.
+5. Use the returned matrices and metadata in downstream R analyses.
 
-<ul>
-  <li>🚧 Bioconductor submission (v0.99.0)</li>
-  <li>🧪 Validated on real AlphaGenome API outputs</li>
-  <li>🔬 Actively developed</li>
-</ul>
-
----
-
-<!-- OVERVIEW -->
-<h2>Overview</h2>
-
-<p>
-<b>AlphaGenomeR</b> enables high-resolution functional genomic predictions across large genomic regions using the AlphaGenome model.
-</p>
-
-<p>
-It bridges the official gRPC-based Python SDK into R, allowing seamless integration with Bioconductor pipelines while maintaining performance and reproducibility.
-</p>
-
----
-
-<!-- WORKFLOW -->
-<h2>🧪 Typical Workflow</h2>
-
-<ol>
-  <li>Query genomic region</li>
-  <li>Retrieve predictions (RNA, ATAC, DNase, etc.)</li>
-  <li>Convert to R-native structures</li>
-  <li>Visualize signals</li>
-  <li>Integrate into downstream analysis</li>
-</ol>
-
----
-
-<!-- ATLAS -->
-<h2>📊 Multimodal Genomic Atlas</h2>
+## Multimodal Atlas
 
 <p align="center">
   <img src="man/figures/modality_atlas.png" width="1000">
 </p>
 
-<p align="center"><i>Example: MYC locus multimodal prediction landscape</i></p>
+<p align="center"><i>Example: multimodal prediction landscape across a genomic locus</i></p>
 
----
+## Modality Gallery
 
-<!-- GALLERY -->
-<h2>🔬 Modality Gallery</h2>
-
-<h3>RNA-seq</h3>
+### RNA-seq
 <img src="man/figures/gallery/res_rna.png">
 
-<h3>ATAC-seq</h3>
+### ATAC-seq
 <img src="man/figures/gallery/res_atac.png">
 
-<h3>DNase-seq</h3>
+### DNase-seq
 <img src="man/figures/gallery/res_dnase.png">
 
-<h3>CAGE</h3>
+### CAGE
 <img src="man/figures/gallery/res_cage.png">
 
-<h3>Histone Modifications</h3>
+### Histone Modifications
 <img src="man/figures/gallery/res_histone.png">
 
-<h3>Splicing</h3>
+### Splicing
 
 <p align="center">
   <img src="man/figures/gallery/res_splice_sites.png" width="45%">
   <img src="man/figures/gallery/res_splice_usage.png" width="45%">
 </p>
 
----
+## Citation
 
-<!-- TECH -->
-<h2>⚙️ Technical Specifications</h2>
+If you use `AlphaGenomeR`, please cite:
 
-<ul>
-  <li><b>Resolution:</b> Single-base (most tracks), 128bp bins</li>
-  <li><b>Backend:</b> gRPC streaming via reticulate</li>
-  <li><b>Ontology:</b> UBERON & CL integration</li>
-  <li><b>Compatible with:</b> GenomicRanges, DESeq2, ggplot2</li>
-</ul>
+- `AlphaGenomeR` (R package): <https://doi.org/10.5281/zenodo.19774275>
+- AlphaGenome model publication
 
----
+You can also run:
 
-<!-- INSTALL -->
-<h2>📦 Installation</h2>
-
-<h3>Prerequisites</h3>
-
-<pre><code>pip install alphagenome</code></pre>
-
-<h3>R Package</h3>
-Once the package is accepted into Bioconductor, install it using:
 ```r
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("AlphaGenomeR")
+citation("AlphaGenomeR")
 ```
-
-For the development version from GitHub:
-```r
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("BDB-Genomics/AlphaGenomeR")
-```
-
----
-
-<!-- CITATION -->
-<h2>📜 Citation</h2>
-
-<p>If you use AlphaGenomeR, please cite:</p>
-
-<ul>
-  <li><b>AlphaGenomeR</b> (R package) — <a href="https://doi.org/10.5281/zenodo.19774275">DOI: 10.5281/zenodo.19774275</a></li>
-  <li><b>AlphaGenome Model</b> (Nature, 2026)</li>
-</ul>
-
-<p><code>citation("AlphaGenomeR")</code></p>
 
 ---
 
