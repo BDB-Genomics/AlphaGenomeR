@@ -1,30 +1,26 @@
 <!-- HERO -->
 <p align="center">
-  <img src="assets/branding_banner.png" alt="BDB-Genomics" width="1000" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
+  <img width="909" height="369" alt="image" src="https://github.com/user-attachments/assets/c23924e2-bfef-4f3b-9d8c-cf596d51ad84"/>
 </p>
 
 <h1 align="center">AlphaGenomeR</h1>
 
 <p align="center">
-  <img src="assets/bdb_logo.png" width="120" />
+  <b>High-resolution functional genomic predictions from AlphaGenome, directly in R</b>
 </p>
 
 <p align="center">
-  <b>High-Resolution Functional Genomic Predictions — Powered by BDB-Genomics</b>
-</p>
-
-<p align="center">
-  <a href="https://doi.org/10.5281/zenodo.19797898">
-    <img src="https://zenodo.org/badge/doi/10.5281/zenodo.19797898.svg" alt="DOI">
-  </a>
   <a href="https://github.com/Bioconductor/Contributions/issues/4256">
-    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg?style=flat-square"/>
+    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg"/>
   </a>
   <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg?style=flat-square"/>
+    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg"/>
   </a>
   <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
-    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white&style=flat-square"/>
+    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white"/>
+  </a>
+  <a href="https://doi.org/10.5281/zenodo.19772912">
+    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19772912.svg" alt="DOI">
   </a>
 </p>
 
@@ -33,7 +29,7 @@
 </p>
 
 <p align="center">
-  <sub>Bridging state-of-the-art deep learning genomics with Bioconductor-native workflows</sub>
+  <sub>Bridging the official AlphaGenome Python SDK into Bioconductor-friendly R workflows</sub>
 </p>
 
 ## Overview
@@ -101,14 +97,6 @@ Sys.setenv(
 library(AlphaGenomeR)
 ```
 
-## u2699ufe0f Architecture Pattern
-
-<p align="center">
-  <img src="assets/architecture_pattern.svg" width="800" alt="BDB Architecture" />
-</p>
-
----
-
 ## Quick Start
 
 ```r
@@ -171,7 +159,7 @@ atac <- alphagenome_get_atac(results)
 
 If you use `AlphaGenomeR`, please cite:
 
-- `AlphaGenomeR` (R package): <https://doi.org/10.5281/zenodo.19797898>
+- `AlphaGenomeR` (R package): <https://doi.org/10.5281/zenodo.19774275>
 - AlphaGenome model publication
 
 You can also run:
