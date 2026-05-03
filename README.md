@@ -19,6 +19,9 @@
   <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
     <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white"/>
   </a>
+  <a href="https://deepwiki.com/BDB-Genomics/AlphaGenomeR">
+    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+  </a>
   <a href="https://doi.org/10.5281/zenodo.19772912">
     <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19772912.svg" alt="DOI">
   </a>
