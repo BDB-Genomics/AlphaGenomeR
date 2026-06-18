@@ -102,6 +102,17 @@ alphagenome_query <- function(access_token,
     ontology_terms = ont_terms
   )
 
+  tryCatch({
+    results <- client$predict_interval(
+      interval = interval,
+      organism = py_organism,
+      requested_outputs = py_outputs,
+      ontology_terms = ont_terms
+    )     
+  }, error = function(e) {
+    stop("API response failed.")  
+  })
+
   # MANUALLY CONSTRUCT R LIST TO BYPASS FROZEN DATACLASS RESTRICTIONS
   results_r <- list(
     atac              = reticulate::py_to_r(results$atac),
