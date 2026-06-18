@@ -1,6 +1,9 @@
 library(AlphaGenomeR)
 library(testthat)
 
+skip_on_cran()
+skip_if_offline()
+
 test_that("alphagenome_get_chip_histone extracts chip_histone data from response", {
 
   mock_response <- list(

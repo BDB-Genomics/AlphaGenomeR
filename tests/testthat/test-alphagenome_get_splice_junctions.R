@@ -1,6 +1,9 @@
 library(AlphaGenomeR)
 library(testthat)
 
+skip_on_cran()
+skip_if_offline()
+
 test_that("alphagenome_get_splice_junctions extracts splice_junctions data from response", {
 
   mock_response <- list(

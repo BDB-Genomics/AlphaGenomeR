@@ -1,6 +1,9 @@
 library(AlphaGenomeR)
 library(testthat)
 
+skip_on_cran()
+skip_if_offline()
+
 test_that("alphagenome_get_cage extracts cage data from response", {
 
   mock_response <- list(
