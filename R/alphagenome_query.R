@@ -53,11 +53,6 @@ alphagenome_query <- function(access_token,
    )
 
   
-  # STRICT REGEX VALIDATION FOR GENOMIC REGION
-  if (!grepl("^chr[0-9XYM]+:[0-9]+-[0-9]+$", genomic_region)) {
-    stop("genomic_region must be in 'chrN:start-end' format.")
-  }
-
   # INITIALIZE PYTHON BRIDGE
   if (!reticulate::py_module_available("alphagenome")) {
     stop("The 'alphagenome' Python package is not installed. Please run: pip install alphagenome")
