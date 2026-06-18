@@ -29,14 +29,30 @@ alphagenome_query <- function(access_token,
                               ontology_terms = NULL) {
 
   # INPUT VALIDATION
-  if (missing(access_token)) {
-    stop("API key is not provided.")
-  }
 
-  if (missing(genomic_region)) {
-    stop("Genomic region is not provided.")
-  }
+    # Parse
+  parts <- strsplit("chr:start-end", "[:-]+") [[1]]
 
+    # Validate format
+  stopifnot(
+    "Genomic region must adhere to the format: chr:start-end" = length(parts) == 3
+  )
+
+    # Assign values
+  chrom <- parts[1]
+  start <- as.integer(parts[2])
+  end <- as.integer(parts[3])
+  
+  stopifnot(
+    "API key is not provided" = !missing(access_token) && nzchar(access_token), 
+    "Genomic region is not provided.") =  !missing(genomic_region) && nzchar(genomic_region), 
+    "End co-ordinates must be greater than start co-ordinates" = end > start, 
+    "context window must be <=1MB" = end - start <= 1000000L, 
+    "Start co-ordinates <= 1MB" = start >=1L, 
+    "invalid chromosome" = chrom %in% paste0("chr", c(1:22, "X", "Y", "M"))
+   )
+
+  
   # STRICT REGEX VALIDATION FOR GENOMIC REGION
   if (!grepl("^chr[0-9XYM]+:[0-9]+-[0-9]+$", genomic_region)) {
     stop("genomic_region must be in 'chrN:start-end' format.")
