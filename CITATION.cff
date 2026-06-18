@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+title: "AlphaGenomeR: An R Interface for the AlphaGenome Genomic Prediction Model"
+message: "If you use this software, please cite it as below."
+authors:
+  - given-names: "Himanshu"
+    family-names: "Bhandary"
+    email: "2032ushimanshu@gmail.com"
+    orcid: "https://orcid.org/0009-0002-9859-3934"
+    affiliation: "BDB-Genomics"
+version: 0.99.0
+date-released: 2026-05-06
+doi: 10.5281/zenodo.19774275
+license: Apache-2.0
+url: https://github.com/BDB-Genomics/AlphaGenomeR
+repository: https://github.com/BDB-Genomics/AlphaGenomeR
+abstract: |
+  AlphaGenomeR provides an R interface to Google DeepMind's AlphaGenome API.
+  It bridges gRPC-based multimodal genomic predictions (RNA-seq, ATAC-seq,
+  DNase-seq, CAGE, TF/histone ChIP-seq, splicing, and 3D genome contacts)
+  into Bioconductor-friendly R workflows via reticulate.
+keywords:
+  - R
+  - bioinformatics
+  - genomics
+  - deep-learning
+  - alphagenome
+  - google-deepmind
+  - functional-genomics
+  - bioconductor
+references:
+  - type: software
+    title: "AlphaGenome: High-resolution functional genomic predictions"
+    journal: ""
+    year: Nil
+    url: ""
