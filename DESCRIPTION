@@ -19,7 +19,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Imports:
     reticulate,
-    glue
+    glue, 
+    curl
 Suggests:
     testthat (>= 3.0.0),
     knitr,
