@@ -49,7 +49,7 @@ test_that("alphagenome_query validates region length <= 1 Mb", {
       genomic_region = "chr17:1-2000000",
       requested_outputs = "RNA_SEQ"
     ),
-    "context window must be <\\= 1 MB"
+    "context window must be <= 1 MB"
   )
 })
 
