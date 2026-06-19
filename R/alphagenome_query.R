@@ -67,12 +67,17 @@ alphagenome_query <- function(access_token,
     stop("requested_outputs")
   }
 
-  # 2. Validate genomic_region format and coordinates BEFORE checking Python availability
+  # 2. Check Python module availability BEFORE validating genomic_region
+  if (!reticulate::py_module_available("alphagenome")) {
+    stop("The 'alphagenome' Python package is not installed. Please run: pip install alphagenome")
+  }
+  
+  # 3. Validate genomic_region format and coordinates
   parts <- strsplit(genomic_region, "[:-]+")[[1]]
   if (length(parts) != 3) {
     stop("Genomic region must adhere to format 'chr:start-end'")
   }
-
+  ...
   chrom <- parts[1]
   start <- as.integer(parts[2])
   end <- as.integer(parts[3])
@@ -93,10 +98,7 @@ alphagenome_query <- function(access_token,
     stop("invalid chromosome")
   }
 
-  # 3. Check Python module availability (now after region checks)
-  if (!reticulate::py_module_available("alphagenome")) {
-    stop("The 'alphagenome' Python package is not installed. Please run: pip install alphagenome")
-  }
+
 
   ag_dna <- reticulate::import("alphagenome.models.dna_client")
   ag_genome <- reticulate::import("alphagenome.data.genome")
