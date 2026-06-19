@@ -17,9 +17,9 @@ alphagenome_get_splice_usage <- function(response_body) {
 
   if (is.null(track_data)) return(NULL)
 
-  return(list(
+  list(
     values   = reticulate::py_to_r(track_data$values),
     metadata = reticulate::py_to_r(track_data$metadata)
-  ))
+  )
 
 }
