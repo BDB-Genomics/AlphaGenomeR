@@ -21,8 +21,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e 'options(repos = c(CRAN = "https://packagemanager.rstudio.com/all/latest")); install.packages(c("rcmdcheck","BiocManager"))'
+          Rscript -e 'options(repos = c(CRAN = "https://packagemanager.rstudio.com/all/latest"))'
+          Rscript -e 'install.packages(c("remotes", "rcmdcheck", "BiocManager"), quiet = TRUE)'
           Rscript -e 'if (!requireNamespace("BiocCheck", quietly=TRUE)) BiocManager::install("BiocCheck")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
 
       - name: Run R CMD check
         uses: r-lib/actions/check-r-package@v2
