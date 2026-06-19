@@ -30,27 +30,25 @@ alphagenome_query <- function(access_token,
 
   # INPUT VALIDATION
 
-    # Parse
-  parts <- strsplit("chr:start-end", "[:-]+") [[1]]
-
-    # Validate format
+   # 1. Validate format FIRST (before parsing)
+  parts <- strsplit(genomic_region, "[:-]+")[[1]]
   stopifnot(
-    "Genomic region must adhere to the format: chr:start-end" = length(parts) == 3
+   "Genomic region must adhere to format 'chr:start-end'" = length(parts) == 3
   )
 
-    # Assign values
+   # 2. Then parse
   chrom <- parts[1]
   start <- as.integer(parts[2])
   end <- as.integer(parts[3])
-  
+
+   # 3. Then validate coordinates
   stopifnot(
-    "API key is not provided" = !missing(access_token) && nzchar(access_token), 
-    "Genomic region is not provided." =  !missing(genomic_region) && nzchar(genomic_region), 
-    "End co-ordinates must be greater than start co-ordinates" = end > start, 
-    "context window must be <=1MB" = end - start <= 1000000L, 
-    "Start co-ordinates <= 1MB" = start >=1L, 
+  
+    "start must be >= 1" = start >= 1L,
+    "end must be greater than start" = end > start,
+    "context window must be <= 1 MB" = end - start <= 1000000L,
     "invalid chromosome" = chrom %in% paste0("chr", c(1:22, "X", "Y", "M"))
-   )
+  )
 
   
   # INITIALIZE PYTHON BRIDGE
