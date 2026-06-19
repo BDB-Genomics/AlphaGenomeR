@@ -20,12 +20,9 @@ jobs:
           r-version: '4.4'
 
       - name: Install dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: |
-            any::rcmdcheck
-            any::BiocCheck
-            any::BiocManager
+        run: |
+          Rscript -e 'options(repos = c(CRAN = "https://packagemanager.rstudio.com/all/latest")); install.packages(c("rcmdcheck","BiocManager"))'
+          Rscript -e 'if (!requireNamespace("BiocCheck", quietly=TRUE)) BiocManager::install("BiocCheck")'
 
       - name: Run R CMD check
         uses: r-lib/actions/check-r-package@v2
