@@ -49,6 +49,10 @@ alphagenome_query <- function(access_token,
                               organism = "HOMO_SAPIENS",
                               requested_outputs = c("RNA_SEQ", "ATAC", "CAGE"),
                               ontology_terms = NULL) {
+  # Check Python module availability first
+  if (!reticulate::py_module_available("alphagenome")) {
+    stop("The Python module 'alphagenome' is not available. Install it (e.g. pip install alphagenome) or ensure reticulate is configured to use the correct Python environment.")
+  }
 
   # 0. API key must be provided (test expects this message)
   if (!nzchar(access_token)) {
