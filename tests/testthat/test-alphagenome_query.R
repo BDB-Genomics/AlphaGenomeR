@@ -56,12 +56,16 @@ test_that("alphagenome_query validates requested_outputs", {
   )
 })
 
-test_that("alphagenome_query fails gracefully when Python module unavailable", {
+test_that("alphagenome_query fails gracefully with unavailable Python module", {
   skip_on_cran()
   local_mocked_bindings(py_module_available = function(...) FALSE, .package = "reticulate")
   expect_error(
-    alphagenome_query(access_token = "dummy", genomic_region = "chr17:42560601-43609177", requested_outputs = "RNA_SEQ"),
-    "alphagenome"  # or your actual error message
+    alphagenome_query(
+      access_token = "dummy",
+      genomic_region = "chr17:42560601-43609177",
+      requested_outputs = "RNA_SEQ"
+    ),
+    "alphagenome.*Python|Python.*alphagenome|not available"
   )
 })
   
