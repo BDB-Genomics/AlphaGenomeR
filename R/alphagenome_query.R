@@ -1,55 +1,84 @@
 #' Query the AlphaGenome API
 #'
-#' @param access_token API key for the AlphaGenome API
-#' @param genomic_region Genomic region to query (e.g., "chr17:42560601-43609177")
-#' @param organism Character string for organism. Default "HOMO_SAPIENS"
-#' @param requested_outputs Character vector of modalities. Default: c("RNA_SEQ", "ATAC", "CAGE")
-#' @param ontology_terms Character vector of tissue/cell type terms (e.g., "UBERON:0002048")
-#' @return A list containing the multimodal predictions
-#' 
+#' Query a genomic interval and return multimodal predictions (RNA, ATAC, CAGE, etc.)
+#'
+#' @param access_token Character. API key for the AlphaGenome API. This must be provided
+#'   (non-empty); the function will error with \"API key is not provided\" if missing.
+#' @param genomic_region Character. Genomic region to query in the form
+#'   \"chr:start-end\" (e.g., \"chr17:42560601-43560601\"). The context window (end - start)
+#'   must be <= 1,000,000 (1 MB).
+#' @param organism Character. Organism enum name to use on the Python side. Default \"HOMO_SAPIENS\".
+#' @param requested_outputs Character vector. One or more output modality names requested from the API.
+#'   Valid values include: \"RNA_SEQ\", \"ATAC\", \"CAGE\", \"CHIP_HISTONE\", \"CHIP_TF\",
+#'   \"DNASE\", \"PROCAP\", \"SPLICE_SITES\", \"SPLICE_SITE_USAGE\", \"SPLICE_JUNCTIONS\", \"CONTACT_MAPS\".
+#'   An error will be raised if any entry is not a supported output type.
+#' @param ontology_terms Character vector or NULL. Optional ontology (tissue/cell-type) terms (e.g., \"UBERON:0002048\").
+#' @return A named list of modality predictions (elements such as `rna_seq`, `atac`, `cage`, etc.)
+#' @details
+#' - The function relies on the Python package `alphagenome` accessed via the reticulate bridge.
+#'   If the Python package is not available the function errors with a message instructing
+#'   the user to `pip install alphagenome`. Tests may mock `reticulate::py_module_available`.
+#' - Input validation is performed in the following order: access token presence, validity of
+#'   requested_outputs, Python module availability, genomic_region format and size constraints.
+#'   This ordering ensures that tests which expect errors for requested_outputs or Python
+#'   availability are reached before region-length checks.
 #' @section Citation Agreement:
-#' By using this function, you agree to cite the AlphaGenomeR package in any 
-#' resulting publications. Run `citation("AlphaGenomeR")` for the formal reference.
-#' 
+#' By using this function, you agree to cite the AlphaGenomeR package in any resulting publications.
+#' Run `citation(\"AlphaGenomeR\")` for the formal reference.
 #' @importFrom reticulate py_module_available import py_to_r
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   results <- alphagenome_query(
-#'     access_token = "YOUR_API_KEY",
-#'     genomic_region = "chr17:42560601-43609177",
-#'     ontology_terms = "UBERON:0002048"
-#'   )
+#' results <- alphagenome_query(
+#'   access_token = Sys.getenv("ALPHAGENOME_API_KEY"),
+#'   genomic_region = "chr17:42560601-43560601",  # <= 1,000,000 bp
+#'   requested_outputs = c("RNA_SEQ")
+#' )
+#' str(results)
 #' }
+
 alphagenome_query <- function(access_token, 
                               genomic_region, 
                               organism = "HOMO_SAPIENS",
                               requested_outputs = c("RNA_SEQ", "ATAC", "CAGE"),
                               ontology_terms = NULL) {
 
-  # INPUT VALIDATION
-
-   # 1. Validate format FIRST (before parsing)
-  parts <- strsplit(genomic_region, "[:-]+")[[1]]
+  # 0. API key must be provided (test expects this message)
   stopifnot(
-   "Genomic region must adhere to format 'chr:start-end'" = length(parts) == 3
+    "API key is not provided" = nzchar(access_token)
   )
 
-   # 2. Then parse
+  # 1. Validate requested_outputs early so tests for invalid types run first
+  valid_outputs <- c("RNA_SEQ", "ATAC", "CAGE", "CHIP_HISTONE", "CHIP_TF", 
+                     "DNASE", "PROCAP", "SPLICE_SITES", "SPLICE_SITE_USAGE", 
+                     "SPLICE_JUNCTIONS", "CONTACT_MAPS")
+  stopifnot(
+    "requested_outputs" = all(requested_outputs %in% valid_outputs)
+  )
+
+  # 2. Check Python module availability early so tests mocking py_module_available hit it
+  if (!reticulate::py_module_available("alphagenome")) {
+    stop("The 'alphagenome' Python package is not installed. Please run: pip install alphagenome")
+  }
+
+  # 3. Validate genomic_region format before parsing
+  parts <- strsplit(genomic_region, "[:-]+")[[1]]
+  stopifnot(
+    "Genomic region must adhere to format 'chr:start-end'" = length(parts) == 3
+  )
+
+  # 4. Parse and validate coordinates
   chrom <- parts[1]
   start <- as.integer(parts[2])
   end <- as.integer(parts[3])
 
-   # 3. Then validate coordinates
   stopifnot(
-  
     "start must be >= 1" = start >= 1L,
     "end must be greater than start" = end > start,
     "context window must be <= 1 MB" = end - start <= 1000000L,
     "invalid chromosome" = chrom %in% paste0("chr", c(1:22, "X", "Y", "M"))
   )
-
   
   # INITIALIZE PYTHON BRIDGE
   if (!reticulate::py_module_available("alphagenome")) {
