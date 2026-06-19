@@ -12,6 +12,4 @@ export(alphagenome_get_splice_junctions)
 export(alphagenome_get_splice_sites)
 export(alphagenome_get_splice_usage)
 export(alphagenome_query)
-importFrom(reticulate,import)
-importFrom(reticulate,py_module_available)
-importFrom(reticulate,py_to_r)
+
