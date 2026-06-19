@@ -45,7 +45,7 @@ alphagenome_query <- function(access_token,
   
   stopifnot(
     "API key is not provided" = !missing(access_token) && nzchar(access_token), 
-    "Genomic region is not provided.") =  !missing(genomic_region) && nzchar(genomic_region), 
+    "Genomic region is not provided." =  !missing(genomic_region) && nzchar(genomic_region), 
     "End co-ordinates must be greater than start co-ordinates" = end > start, 
     "context window must be <=1MB" = end - start <= 1000000L, 
     "Start co-ordinates <= 1MB" = start >=1L, 
