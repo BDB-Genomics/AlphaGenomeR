@@ -23,7 +23,7 @@ test_that("alphagenome_query validates genomic_region format", {
       genomic_region = "not_a_region",
       requested_outputs = "RNA_SEQ"
     ),
-    "Genomic region must adhere to the format"
+    "Genomic region must adhere to format 'chr:start-end'"
   )
 })
 
@@ -36,7 +36,7 @@ test_that("alphagenome_query validates start < end", {
       genomic_region = "chr17:50000000-40000000",
       requested_outputs = "RNA_SEQ"
     ),
-    "End co-ordinates must be greater than start co-ordinates"
+    "end must be greater than start"
   )
 })
 
@@ -49,7 +49,7 @@ test_that("alphagenome_query validates region length <= 1 Mb", {
       genomic_region = "chr17:1-2000000",
       requested_outputs = "RNA_SEQ"
     ),
-    "context window must be <=1MB"
+    "context window must be <\\= 1 MB"
   )
 })
 
