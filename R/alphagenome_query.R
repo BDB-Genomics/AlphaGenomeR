@@ -3,11 +3,11 @@
 #' Query a genomic interval and return multimodal predictions (RNA, ATAC, CAGE, etc.).
 #'
 #' The function performs input validation in the following order:
-#' 1) `access_token` presence, 2) `requested_outputs` validity, 3) `genomic_region`
-#'    format and coordinate checks, and 4) availability of the Python package
-#'    `alphagenome` via reticulate. The Python availability check is performed
-#'    after region validation so that unit tests that validate region-format
-#'    behavior run even when `alphagenome` is not installed in the environment.
+#' 1) `access_token` presence, 2) availability of the Python package
+#'    `alphagenome` via reticulate, 3) `requested_outputs` validity, and 
+#'    4) `genomic_region` format and coordinate checks. The Python availability 
+#'    check is performed early so that tests mocking module unavailability 
+#'    receive consistent error messages.
 #'
 #' @param access_token Character. API key for the AlphaGenome API. Must be a
 #'   non-empty string; otherwise the function errors with
@@ -54,7 +54,12 @@ alphagenome_query <- function(access_token,
     stop("API key is not provided")
   }
 
-  # 2. Validate requested_outputs early
+  # 2. Check Python module availability EARLY (before other validations)
+  if (!reticulate::py_module_available("alphagenome")) {
+    stop("The Python module 'alphagenome' is not available. Install it (e.g. pip install alphagenome) or ensure reticulate is configured to use the correct Python environment.")
+  }
+
+  # 3. Validate requested_outputs
   valid_outputs <- c("RNA_SEQ", "ATAC", "CAGE", "CHIP_HISTONE", "CHIP_TF", 
                      "DNASE", "PROCAP", "SPLICE_SITES", "SPLICE_SITE_USAGE", 
                      "SPLICE_JUNCTIONS", "CONTACT_MAPS")
@@ -62,7 +67,7 @@ alphagenome_query <- function(access_token,
     stop("requested_outputs")
   }
 
-  # 3. Validate genomic_region format and coordinates
+  # 4. Validate genomic_region format and coordinates
   parts <- strsplit(genomic_region, "[:-]+")[[1]]
   if (length(parts) != 3) {
     stop("Genomic region must adhere to format 'chr:start-end'")
@@ -88,10 +93,6 @@ alphagenome_query <- function(access_token,
     stop("invalid chromosome")
   }
 
-  # 4. NOW check Python module availability (after all validations)
-  if (!reticulate::py_module_available("alphagenome")) {
-    stop("The Python module 'alphagenome' is not available. Install it (e.g. pip install alphagenome) or ensure reticulate is configured to use the correct Python environment.")
-  }
   ag_dna <- reticulate::import("alphagenome.models.dna_client")
   ag_genome <- reticulate::import("alphagenome.data.genome")
 
@@ -150,7 +151,7 @@ alphagenome_query <- function(access_token,
   )
 
   # ATTACH MANDATORY CITATION INFO
-  results_r$citation_agreement <- "Himanshu (2026). AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions. R package version 0.99.0, https://github.com/BDB-Genomics/AlphaGenomeR"
+  results_r$citation_agreement <- "Himanshu (2026). AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions. R package version 0.99.0, https://github.com/BDB-Genomics/Al[...]
 
   return(results_r)
 }
