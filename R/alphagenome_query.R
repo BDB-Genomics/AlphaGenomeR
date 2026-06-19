@@ -49,17 +49,12 @@ alphagenome_query <- function(access_token,
                               organism = "HOMO_SAPIENS",
                               requested_outputs = c("RNA_SEQ", "ATAC", "CAGE"),
                               ontology_terms = NULL) {
-  # Check Python module availability first
-  if (!reticulate::py_module_available("alphagenome")) {
-    stop("The Python module 'alphagenome' is not available. Install it (e.g. pip install alphagenome) or ensure reticulate is configured to use the correct Python environment.")
-  }
-
-  # 0. API key must be provided (test expects this message)
+  # 1. Validate access_token
   if (!nzchar(access_token)) {
     stop("API key is not provided")
   }
 
-  # 1. Validate requested_outputs early so tests for invalid types run first
+  # 2. Validate requested_outputs early
   valid_outputs <- c("RNA_SEQ", "ATAC", "CAGE", "CHIP_HISTONE", "CHIP_TF", 
                      "DNASE", "PROCAP", "SPLICE_SITES", "SPLICE_SITE_USAGE", 
                      "SPLICE_JUNCTIONS", "CONTACT_MAPS")
@@ -67,17 +62,12 @@ alphagenome_query <- function(access_token,
     stop("requested_outputs")
   }
 
-  # 2. Check Python module availability BEFORE validating genomic_region
-  if (!reticulate::py_module_available("alphagenome")) {
-    stop("The 'alphagenome' Python package is not installed. Please run: pip install alphagenome")
-  }
-  
   # 3. Validate genomic_region format and coordinates
   parts <- strsplit(genomic_region, "[:-]+")[[1]]
   if (length(parts) != 3) {
     stop("Genomic region must adhere to format 'chr:start-end'")
   }
-  ...
+  
   chrom <- parts[1]
   start <- as.integer(parts[2])
   end <- as.integer(parts[3])
@@ -98,8 +88,10 @@ alphagenome_query <- function(access_token,
     stop("invalid chromosome")
   }
 
-
-
+  # 4. NOW check Python module availability (after all validations)
+  if (!reticulate::py_module_available("alphagenome")) {
+    stop("The Python module 'alphagenome' is not available. Install it (e.g. pip install alphagenome) or ensure reticulate is configured to use the correct Python environment.")
+  }
   ag_dna <- reticulate::import("alphagenome.models.dna_client")
   ag_genome <- reticulate::import("alphagenome.data.genome")
 
