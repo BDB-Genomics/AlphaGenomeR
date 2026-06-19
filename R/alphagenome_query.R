@@ -73,7 +73,7 @@ alphagenome_query <- function(access_token,
   }
 
   # 3. Validate genomic_region format and coordinates
-  parts <- strsplit(genomic_region, "[:")[[1]]
+  parts <- strsplit(genomic_region, "[:-]+")[[1]]
   if (length(parts) != 3) {
     stop("Genomic region must adhere to format 'chr:start-end'")
   }
