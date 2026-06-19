@@ -151,7 +151,7 @@ alphagenome_query <- function(access_token,
   )
 
   # ATTACH MANDATORY CITATION INFO
-  results_r$citation_agreement <- "Himanshu (2026). AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions. R package version 0.99.0, https://github.com/BDB-Genomics/Al[...]
+  results_r$citation_agreement <- "Himanshu (2026). AlphaGenomeR: An R/Bioconductor Interface for High-Resolution Genomic Predictions. R package version 0.99.0, https://github.com/BDB-Genomics/AlphaGenomeR"
 
   return(results_r)
 }
