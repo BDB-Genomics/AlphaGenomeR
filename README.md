@@ -111,7 +111,7 @@ library(AlphaGenomeR)
 
 results <- alphagenome_query(
     access_token = "YOUR_API_KEY",
-    genomic_region = "chr17:42560601-43609177",
+    genomic_region = "chr17:42560601-43560601",
     ontology_terms = "UBERON:0002048",
     requested_outputs = c("RNA_SEQ", "ATAC")
 )
