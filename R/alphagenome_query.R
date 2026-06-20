@@ -3,12 +3,12 @@
 #' Query a genomic interval and return multimodal predictions (RNA, ATAC, CAGE, etc.).
 #'
 #' The function performs input validation in the following order:
-#' 1) `access_token` presence, 2) `requested_outputs` validity, 3) `genomic_region`
+#' 1) `api_key` presence, 2) `requested_outputs` validity, 3) `genomic_region`
 #' format and coordinate checks, and 4) availability of the Python package
 #' `alphagenome` via reticulate. Input validation is performed before the
 #' Python availability check so that invalid parameters are caught first.
 #'
-#' @param access_token Character. API key for the AlphaGenome API. Must be a
+#' @param api_key Character. API key for the AlphaGenome API. Must be a
 #' non-empty string; otherwise the function errors with
 #' "API key is not provided".
 #' @param genomic_region Character. Genomic region to query in the form
@@ -45,7 +45,7 @@
 #' @examples
 #' \dontrun{
 #' response <- alphagenome_query(
-#'   access_token = "YOUR_API_KEY",
+#'   api_key = "YOUR_API_KEY",
 #'   genomic_region = "chr17:42560601-43560601",
 #'   ontology_terms = "UBERON:0002048",
 #'   requested_outputs = c("RNA_SEQ", "ATAC")
@@ -54,13 +54,13 @@
 #' atac <- alphagenome_get_atac(response)
 #' }
 
-alphagenome_query <- function(access_token,
+alphagenome_query <- function(api_key,
                               genomic_region,
                               organism = "HOMO_SAPIENS",
                               requested_outputs = c("RNA_SEQ", "ATAC", "CAGE"),
                               ontology_terms = NULL) {
   # 1. Validate access_token
-  if (!is.character(access_token) || length(access_token) != 1 || !nzchar(access_token)) {
+  if (!is.character(api_key) || length(api_key) != 1 || !nzchar(api_key)) {
     stop("API key is not provided")
   }
 
@@ -134,7 +134,7 @@ alphagenome_query <- function(access_token,
   }
 
   # INITIALIZE CLIENT
-  client <- ag_dna$create(api_key = access_token)
+  client <- ag_dna$create(api_key = api_key)
 
   # CREATE INTERVAL
   interval <- ag_genome$Interval(chromosome = chrom, start = start, end = end)
