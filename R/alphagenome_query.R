@@ -137,8 +137,11 @@ alphagenome_query <- function(api_key,
   # INITIALIZE CLIENT
   client <- ag_dna$create(api_key = api_key)
 
+  py_start <- start - 1L
+  py_end <- as.integer(end) # R's fully-closed `end` corresponds directly to Python's half-open `end`
+
   # CREATE INTERVAL
-  interval <- ag_genome$Interval(chromosome = chrom, start = start, end = end)
+  interval <- ag_genome$Interval(chromosome = chrom, start = py_start, end = py_end)
 
   # EXECUTE PREDICTION (single call inside tryCatch)
   ont_terms <- if (is.null(ontology_terms)) list() else as.list(ontology_terms)
@@ -154,20 +157,29 @@ alphagenome_query <- function(api_key,
     stop("API response failed: ", conditionMessage(e))
   })
 
-  # MANUALLY CONSTRUCT R LIST TO BYPASS FROZEN DATACLASS RESTRICTIONS
-  results_r <- list(
-    atac = reticulate::py_to_r(results$atac),
-    cage = reticulate::py_to_r(results$cage),
-    dnase = reticulate::py_to_r(results$dnase),
-    rna_seq = reticulate::py_to_r(results$rna_seq),
-    chip_histone = reticulate::py_to_r(results$chip_histone),
-    chip_tf = reticulate::py_to_r(results$chip_tf),
-    splice_sites = reticulate::py_to_r(results$splice_sites),
-    splice_site_usage = reticulate::py_to_r(results$splice_site_usage),
-    splice_junctions = reticulate::py_to_r(results$splice_junctions),
-    contact_maps = reticulate::py_to_r(results$contact_maps),
-    procap = reticulate::py_to_r(results$procap)
+  # MANUALLY CONSTRUCT R LIST
+  results_r <- list()
+
+  output_map <- c(
+    "RNA_SEQ" = "rna_seq",
+    "ATAC" = "atac",
+    "CAGE" = "cage",
+    "CHIP_HISTONE" = "chip_histone",
+    "CHIP_TF" = "chip_tf",
+    "DNASE" = "dnase",
+    "PROCAP" = "procap",
+    "SPLICE_SITES" = "splice_sites",
+    "SPLICE_SITE_USAGE" = "splice_site_usage",
+    "SPLICE_JUNCTIONS" = "splice_junctions",
+    "CONTACT_MAPS" = "contact_maps"
   )
+
+  for (req in requested_outputs) {
+    attr_name <- output_map[[req]]
+    if (!is.null(results[[attr_name]])) {
+      results_r[[attr_name]] <- reticulate::py_to_r(results[[attr_name]])
+    }
+  }
 
   # ATTACH MANDATORY CITATION INFO
   pkg_version <- as.character(packageVersion("AlphaGenomeR"))
