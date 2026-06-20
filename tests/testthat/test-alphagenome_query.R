@@ -1,12 +1,12 @@
 library(testthat)
 
-test_that("alphagenome_query validates missing access_token", {
+test_that("alphagenome_query validates missing api_key", {
 skip_on_cran()
 skip_if_offline()
 
 expect_error(
 alphagenome_query(
-access_token = "",
+api_key = "",
 genomic_region = "chr17:42560601-43560601",
 requested_outputs = "RNA_SEQ"
 ),
@@ -19,7 +19,7 @@ skip_on_cran()
 
 expect_error(
 alphagenome_query(
-access_token = "dummy",
+api_key = "dummy",
 genomic_region = "not_a_region",
 requested_outputs = "RNA_SEQ"
 ),
@@ -32,7 +32,7 @@ skip_on_cran()
 
 expect_error(
 alphagenome_query(
-access_token = "dummy",
+api_key = "dummy",
 genomic_region = "chr17:50000000-40000000",
 requested_outputs = "RNA_SEQ"
 ),
@@ -45,7 +45,7 @@ skip_on_cran()
 
 expect_error(
 alphagenome_query(
-access_token = "dummy",
+api_key = "dummy",
 genomic_region = "chr17:1-2000000",
 requested_outputs = "RNA_SEQ"
 ),
@@ -58,7 +58,7 @@ skip_on_cran()
 
 expect_error(
 alphagenome_query(
-access_token = "dummy",
+api_key = "dummy",
 genomic_region = "chr17:42560601-43560601",
 requested_outputs = "INVALID_TYPE"
 ),
@@ -76,7 +76,7 @@ py_module_available = function(...) FALSE,
 
 expect_error(
 alphagenome_query(
-access_token = "dummy",
+api_key = "dummy",
 genomic_region = "chr17:42560601-43560601",
 requested_outputs = "RNA_SEQ"
 ),
