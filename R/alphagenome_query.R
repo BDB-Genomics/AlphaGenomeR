@@ -40,6 +40,7 @@
 #' reference.
 #' @seealso reticulate
 #' @importFrom reticulate py_module_available import py_to_r
+#' @importFrom utils packageVersion
 #' @export
 #'
 #' @examples
