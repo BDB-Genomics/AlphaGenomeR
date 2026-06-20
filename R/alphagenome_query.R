@@ -40,7 +40,6 @@
 #' reference.
 #' @seealso reticulate
 #' @importFrom reticulate py_module_available import py_to_r
-#' @importFrom utils packageVersion
 #' @export
 #'
 #' @examples
@@ -137,10 +136,10 @@ alphagenome_query <- function(api_key,
   # INITIALIZE CLIENT
   client <- ag_dna$create(api_key = api_key)
 
-  py_start <- start - 1L
-  py_end <- as.integer(end) # R's fully-closed `end` corresponds directly to Python's half-open `end`
-
   # CREATE INTERVAL
+  # AlphaGenome's Python interval uses a 0-based start coordinate.
+  py_start <- start - 1L
+  py_end <- end
   interval <- ag_genome$Interval(chromosome = chrom, start = py_start, end = py_end)
 
   # EXECUTE PREDICTION (single call inside tryCatch)
@@ -157,25 +156,24 @@ alphagenome_query <- function(api_key,
     stop("API response failed: ", conditionMessage(e))
   })
 
-  # MANUALLY CONSTRUCT R LIST
-  results_r <- list()
-
+  # Extract only the requested modalities that are present in the result.
   output_map <- c(
-    "RNA_SEQ" = "rna_seq",
-    "ATAC" = "atac",
-    "CAGE" = "cage",
-    "CHIP_HISTONE" = "chip_histone",
-    "CHIP_TF" = "chip_tf",
-    "DNASE" = "dnase",
-    "PROCAP" = "procap",
-    "SPLICE_SITES" = "splice_sites",
-    "SPLICE_SITE_USAGE" = "splice_site_usage",
-    "SPLICE_JUNCTIONS" = "splice_junctions",
-    "CONTACT_MAPS" = "contact_maps"
+    RNA_SEQ = "rna_seq",
+    ATAC = "atac",
+    CAGE = "cage",
+    CHIP_HISTONE = "chip_histone",
+    CHIP_TF = "chip_tf",
+    DNASE = "dnase",
+    PROCAP = "procap",
+    SPLICE_SITES = "splice_sites",
+    SPLICE_SITE_USAGE = "splice_site_usage",
+    SPLICE_JUNCTIONS = "splice_junctions",
+    CONTACT_MAPS = "contact_maps"
   )
 
+  results_r <- list()
   for (req in requested_outputs) {
-    attr_name <- output_map[[req]]
+    attr_name <- unname(output_map[[req]])
     if (!is.null(results[[attr_name]])) {
       results_r[[attr_name]] <- reticulate::py_to_r(results[[attr_name]])
     }
