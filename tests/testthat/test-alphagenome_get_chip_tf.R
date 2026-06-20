@@ -1,8 +1,4 @@
-library(AlphaGenomeR)
 library(testthat)
-
-skip_on_cran()
-skip_if_offline()
 
 test_that("alphagenome_get_chip_tf extracts chip_tf data from response", {
 

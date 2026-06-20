@@ -1,8 +1,4 @@
-library(AlphaGenomeR)
 library(testthat)
-
-skip_on_cran()
-skip_if_offline()
 
 test_that("alphagenome_get_rna_seq extracts rna_seq data from response", {
 

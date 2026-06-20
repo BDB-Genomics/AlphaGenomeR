@@ -1,9 +1,6 @@
 library(testthat)
 
 test_that("alphagenome_query validates missing api_key", {
-skip_on_cran()
-skip_if_offline()
-
 expect_error(
 alphagenome_query(
 api_key = "",
@@ -15,8 +12,6 @@ requested_outputs = "RNA_SEQ"
 })
 
 test_that("alphagenome_query validates genomic_region format", {
-skip_on_cran()
-
 expect_error(
 alphagenome_query(
 api_key = "dummy",
@@ -28,8 +23,6 @@ requested_outputs = "RNA_SEQ"
 })
 
 test_that("alphagenome_query validates start < end", {
-skip_on_cran()
-
 expect_error(
 alphagenome_query(
 api_key = "dummy",
@@ -41,8 +34,6 @@ requested_outputs = "RNA_SEQ"
 })
 
 test_that("alphagenome_query validates region length <= 1 Mb", {
-skip_on_cran()
-
 expect_error(
 alphagenome_query(
 api_key = "dummy",
@@ -54,8 +45,6 @@ requested_outputs = "RNA_SEQ"
 })
 
 test_that("alphagenome_query validates requested_outputs", {
-skip_on_cran()
-
 expect_error(
 alphagenome_query(
 api_key = "dummy",
@@ -67,8 +56,6 @@ requested_outputs = "INVALID_TYPE"
 })
 
 test_that("alphagenome_query fails gracefully when Python module unavailable", {
-skip_on_cran()
-
 local_mocked_bindings(
 py_module_available = function(...) FALSE,
 .package = "reticulate"

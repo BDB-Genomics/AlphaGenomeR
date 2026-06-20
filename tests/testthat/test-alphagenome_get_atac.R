@@ -1,6 +1,3 @@
-skip_on_cran()
-skip_if_offline()
-
 test_that("alphagenome_get_atac extracts atac data from response", {
 
   mock_response <- list(

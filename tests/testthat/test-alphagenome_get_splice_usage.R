@@ -1,8 +1,4 @@
-library(AlphaGenomeR)
 library(testthat)
-
-skip_on_cran()
-skip_if_offline()
 
 test_that("alphagenome_get_splice_usage extracts splice_site_usage data from response", {
 
