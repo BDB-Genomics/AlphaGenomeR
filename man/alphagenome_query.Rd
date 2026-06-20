@@ -5,7 +5,7 @@
 \title{Query the AlphaGenome API}
 \usage{
 alphagenome_query(
-  access_token,
+  api_key,
   genomic_region,
   organism = "HOMO_SAPIENS",
   requested_outputs = c("RNA_SEQ", "ATAC", "CAGE"),
@@ -13,7 +13,7 @@ alphagenome_query(
 )
 }
 \arguments{
-\item{access_token}{API key for the AlphaGenome API}
+\item{api_key}{API key for the AlphaGenome API}
 
 \item{genomic_region}{Genomic region to query (e.g., "chr17:42560601-43609177")}
 
@@ -38,7 +38,7 @@ resulting publications. Run \code{citation("AlphaGenomeR")} for the formal refer
 \examples{
 \dontrun{
   results <- alphagenome_query(
-    access_token = "YOUR_API_KEY",
+    api_key = "YOUR_API_KEY",
     genomic_region = "chr17:42560601-43609177",
     ontology_terms = "UBERON:0002048"
   )

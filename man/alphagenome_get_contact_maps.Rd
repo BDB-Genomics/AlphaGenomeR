@@ -17,7 +17,7 @@ Extract CONTACT_MAPS data from the AlphaGenome API response
 }
 \examples{
 \dontrun{
-response <- alphagenome_query(access_token = "YOUR_API_KEY", genomic_region = "chr1:1000000-1001000")
+response <- alphagenome_query(api_key = "YOUR_API_KEY", genomic_region = "chr1:1000000-1001000")
 data <- alphagenome_get_contact_maps(response)
 }
 }
