@@ -59,7 +59,7 @@ alphagenome_query <- function(api_key,
                               organism = "HOMO_SAPIENS",
                               requested_outputs = c("RNA_SEQ", "ATAC", "CAGE"),
                               ontology_terms = NULL) {
-  # 1. Validate access_token
+  # 1. Validate api_key
   if (!is.character(api_key) || length(api_key) != 1 || !nzchar(api_key)) {
     stop("API key is not provided")
   }
