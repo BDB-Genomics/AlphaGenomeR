@@ -54,7 +54,7 @@ region <- "chr17:42560601-43609177"
 
 # Query for Lung tissue
 results <- alphagenome_query(
-  access_token = api_key,
+  api_key = api_key,
   genomic_region = region,
   ontology_terms = c("UBERON:0002048"),
   requested_outputs = c("RNA_SEQ", "ATAC")
