@@ -1,100 +1,48 @@
-<!-- HERO -->
-<p align="center">
-  <img width="909" height="369" alt="image" src="https://github.com/user-attachments/assets/c23924e2-bfef-4f3b-9d8c-cf596d51ad84"/>
-</p>
+# AlphaGenomeR
 
-<h1 align="center">AlphaGenomeR</h1>
-
-<p align="center">
-  <b>High-resolution functional genomic predictions from AlphaGenome, directly in R</b>
-</p>
-
-<p align="center">
-  <a href="https://github.com/Bioconductor/Contributions/issues/4256">
-    <img src="https://img.shields.io/badge/Bioconductor-Submission-blue.svg"/>
-  </a>
-  <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg"/>
-  </a>
-  <a href="https://mintlify.wiki/BDB-Genomics/AlphaGenomeR">
-    <img src="https://img.shields.io/badge/docs-mintlify-6366f1?logo=mintlify&logoColor=white"/>
-  </a>
-  <a href="https://deepwiki.com/BDB-Genomics/AlphaGenomeR">
-    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
-  </a>
-  <a href="https://doi.org/10.5281/zenodo.19772912">
-    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19772912.svg" alt="DOI">
-  </a>
-</p>
-
-<p align="center">
-  <img src="assets/architecture_diagram.svg" alt="AlphaGenomeR Architecture" width="860" />
-</p>
-
-<p align="center">
-  <sub>Bridging the official AlphaGenome Python SDK into Bioconductor-friendly R workflows</sub>
-</p>
+An R interface to Google DeepMind's AlphaGenome API.
 
 ## Overview
 
-`AlphaGenomeR` provides an R interface to Google DeepMind's AlphaGenome API.
-It uses `reticulate` to call the official Python client and returns R-friendly
-objects for downstream analysis.
-
-Typical uses:
-
-- query a 1 Mb genomic interval
-- retrieve RNA-seq, ATAC-seq, DNase-seq, CAGE, TF/histone, splicing, and contact predictions
-- convert results into matrices and metadata tables in R
-- integrate predictions into Bioconductor workflows
-
-## Project Status
-
-- Bioconductor submission: `0.99.0`
-- Validated on real AlphaGenome API outputs
-- Actively developed
+AlphaGenomeR provides a small set of wrapper functions for querying AlphaGenome and extracting common output modalities in R.
 
 ## Installation
 
-### 1. Create a dedicated Python environment
-
-`AlphaGenomeR` depends on the Python package `alphagenome`. Use the included
-Conda environment file to avoid dependency conflicts with your base environment.
-
-```bash
-conda env create -f dev/alphagenome.yaml
-conda activate alphagenomer
-```
-
-### 2. Install the R package
-
-For the development version from GitHub:
+### Development version
 
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
+  install.packages("BiocManager")
 }
 
 BiocManager::install("BDB-Genomics/AlphaGenomeR")
 ```
 
-Once accepted into Bioconductor:
+### Bioconductor release
 
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
+  install.packages("BiocManager")
 }
 
 BiocManager::install("AlphaGenomeR")
 ```
 
-### 3. Point `reticulate` to the environment
+## Requirements
 
-Set `RETICULATE_PYTHON` before loading the package.
+- R >= 4.0
+- Python >= 3.10
+- `alphagenome` Python package
+- valid AlphaGenome API key
+- internet access for live API queries
+
+## Setup
+
+AlphaGenomeR uses `reticulate` to call the Python client. Point `reticulate` to the Python environment that has `alphagenome` installed before loading the package:
 
 ```r
 Sys.setenv(
-    RETICULATE_PYTHON = "/path/to/miniconda3/envs/alphagenomer/bin/python"
+  RETICULATE_PYTHON = "/path/to/miniconda3/envs/alphagenomer/bin/python"
 )
 
 library(AlphaGenomeR)
@@ -103,29 +51,25 @@ library(AlphaGenomeR)
 ## Quick Start
 
 ```r
-Sys.setenv(
-    RETICULATE_PYTHON = "/path/to/miniconda3/envs/alphagenomer/bin/python"
-)
-
-library(AlphaGenomeR)
-
 results <- alphagenome_query(
-    access_token = "YOUR_API_KEY",
-    genomic_region = "chr17:42560601-43560601",
-    ontology_terms = "UBERON:0002048",
-    requested_outputs = c("RNA_SEQ", "ATAC")
+  access_token = "YOUR_API_KEY",
+  genomic_region = "chr17:42560601-43560601",
+  ontology_terms = "UBERON:0002048",
+  requested_outputs = c("RNA_SEQ", "ATAC")
 )
 
 rna <- alphagenome_get_rna_seq(results)
 atac <- alphagenome_get_atac(results)
 ```
 
-## Requirements
+## Output Structure
 
-- Python `>= 3.10`
-- `alphagenome` Python package `>= 0.6.1`
-- valid AlphaGenome API key
-- internet access for live API queries
+`alphagenome_query()` returns a named list of modality results.
+
+Each extractor returns one modality as a list with:
+
+- `values` - numeric matrix or array of predictions
+- `metadata` - data frame describing each track
 
 ## Supported Outputs
 
@@ -141,28 +85,25 @@ atac <- alphagenome_get_atac(results)
 - `alphagenome_get_procap()`
 - `alphagenome_get_contact_maps()`
 
-## Typical Workflow
+## Development
 
-1. Create or activate the dedicated Python environment.
-2. Set `RETICULATE_PYTHON`.
-3. Query a genomic region with `alphagenome_query()`.
-4. Extract modality-specific data with the helper functions.
-5. Use the returned matrices and metadata in downstream R analyses.
+Run checks locally before submitting changes:
 
+```r
+devtools::test()
+devtools::check()
+```
+
+The GitHub Actions workflow runs the same checks in CI.
 
 ## Citation
 
-If you use `AlphaGenomeR`, please cite:
-
-- `AlphaGenomeR` (R package): <https://doi.org/10.5281/zenodo.19774275>
-- AlphaGenome model publication
-
-You can also run:
+If you use AlphaGenomeR, please cite the package:
 
 ```r
 citation("AlphaGenomeR")
 ```
 
----
+## License
 
-**Developed by Himanshu Bhandary**
+Apache License 2.0
